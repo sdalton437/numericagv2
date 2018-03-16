@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NumericAg, Description</title>
+{% load static %}
+
+     {% include "passapp/base.html" %}
+
+  </head>
+
+  <body>
+
+
+           <div class="container theme-showcase" role="main">
+        {% block content %}
+            <div class="panel panel-primary">
+             <div class="panel-heading">
+                   <h3 class="panel-title"> Description of the input form parameters
+                   </h3>
+                 </div>
+             <div class="panel-body">
+
+             <div id="soiltype">
+             <h4> Soil Type</h4>
+
+                    <span>
+                    The soil characteristics or quality of soil, there are 16 options to specify the soil category corresponding to your field/farm.
+                    <br> However, if you dont know the type of soil you have, please use the <a href="http://www.info-sols.ca/index.php">http://www.info-sols.ca </a>  service to determine soil characteristics.
+                    </span>
+              </div>
+
+                <div id ="previouscrop">
+                   <h4> Previous Crop</h4>
+
+                    <span>
+                        Previously harvested crop at the given farm, this will be used to determine the nutrient contribution of fertilizer application.
+                        <br> The previous crop to previous nutrient contribution will be used as one of the factor in estimating the results.
+                    </span>
+
+                 </div>
+
+               <div id ="tillage">
+                      <h4> Tillage System</h4>
+
+                    <span>
+                    The tillage system followed
+                    </span>
+
+                 </div>
+
+
+
+
+             <h4> Soil Organic Matter SOM (%)</h4>
+
+                 <div id ="precipitation">
+               <h4> Precipitation (AWDR, mm)</h4>
+                 <span>
+
+                     The rain amount data based on the concept of abundant and well-distributed rainfall (AWDR) proposed by Tremblay et al. (2012). The AWDR was categorized into 5 high-level subjective classes for user to specify the rain in the input form.
+                     The user can select one of the class values based on the expected rainfall for the growing season in the specified region
+                 </span>
+                </div>
+                <div id ="temperature">
+                <h4>Temperature (CHU, °C) </h4>
+                 <span>
+                     Temperature (CHU, °C): The corn heat unit (CHU) expresses temperature measurements in degrees (Bootsma et al., 2005).
+                     This temporal factor can affect the yield growth/production;therefore, the user needs to specify suitable conditions pertaining to his/her site. It was categorized into five high-level classes according to the CHU values
+                 </span>
+                     </div>
+             </div>
+
+           </div>
+
+
+
+          {% endblock %}
+        </div> <!-- conatiner -->
+
+        {% include "passapp/footer.html" %}
+
+    </body>
+
+</html>
+</html>
