@@ -75,17 +75,21 @@ WSGI_APPLICATION = 'NumericAgWebAppV2.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 #local MySQL database server
+
+#remote webfaction agridss mysql db connection properties
+
 DATABASES = {
     'default': {
-        'HOST':'127.0.0.1',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'numericag',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'PORT': '3306',
-        'CONN_MAX_AGE': None,
+          'HOST': 'web546.webfaction.com',
+          'ENGINE': 'django.db.backends.mysql',
+          'NAME': 'agridss',
+          'USER': 'passapp',
+          'PASSWORD': 'passapp',
+          'PORT': '3306',
+          'CONN_MAX_AGE': None,
+          'sql_mode':'STRICT_TRANS_TABLES',
     }
-}
+  }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
