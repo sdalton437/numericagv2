@@ -369,7 +369,7 @@
                                                 <option value="Low">Low nutrient contribution (e.g., Corn, Potatoes etc.)</option>
                                             <option selected="selected"  value="Moderate">Moderate nutrient contribution (e.g., Soybean, Forage etc.)</option>
                                              <option value="Strong"> Strong nutrient contribution (e.g., Legumes, GreenPeas etc.) </option>
-                                             <option value=""> Other </option>
+                                             <option value="other"> Other </option>
 
 
                                             </select>
@@ -497,7 +497,7 @@
                                              <select class="form-control" id="tillType" name="tillType" placeholder="Till Type">
                                                 <option value="0">Max Soil Distortion (Conventional)</option>
                                                 <option value="1">Min Soil Distortion (No till)</option>
-                                                <option value="">Other</option>
+                                                <option value="other">Other</option>
                                              </select>
                                          </div>
 
@@ -518,7 +518,7 @@
                                                       <div class="modal-dialog modal-sm" role="document">
                                                         <div class="modal-content">
                                                           <div class="modal-header">
-                                                            <h5 class="modal-title font-weight-bold">Set Max and Min Values
+                                                            <h5 class="modal-title font-weight-bold">Set Soil Type Scale
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                               <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -609,12 +609,17 @@
 
 
                                          <div class="row">
-                                             <div class="col-md-5">
+                                             <div class="col-md-6">
                                                  <label for="som" > Soil Organic Matter (SOM) Contribution
                                                         <a>
                                                        <span title="The soil organic mattter of your farm's soil" class="glyphicon glyphicon-question-sign"></span>
                                                      </a>
                                                  </label>
+                                                 <label  for="som">
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_som">Set Max/Min</a>
+
+
+                                                </label>
                                               <select class="form-control" id="som" name="som" >
                                                 <option value="1">Very Low (0% - 2%)</option>
                                                 <option value="3">Low (2% - 4%)</option>
@@ -625,6 +630,7 @@
                                                 </select>
                                                 <input class="form-control" type="number" min="1" max="15" step="0.5"id="somother" name="somother" placeholder="e.g., 2, 4, 6 ... 12">
                                              </div>
+                                             <!--
                                              <div class="col-md-5">
                                                 <div class="row">
                                                 <div class="col-md-6">
@@ -638,8 +644,9 @@
                                                 </label>
                                                 </div>
                                                 </div>
+                                                -->
                                                 <div class="modal fade" id="max_min_som" tabindex="-1" role="dialog" aria-labelledby="max_min_som" aria-hidden="true">
-                                                      <div class="modal-dialog modal-sm" role="document">
+                                                      <div class="modal-dialog modal-md" role="document">
                                                         <div class="modal-content">
                                                           <div class="modal-header">
                                                             <h5 class="modal-title font-weight-bold">Set Max and Min Values
@@ -651,15 +658,38 @@
                                                           </div>
                                                           <div class="modal-body">
                                                               <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+
+
                                                               <label for="som">Max</label>
 
                                                                 <input class="form-control" id = "somMax"  type="number" value="5">
+                                                                      </div>
+                                                                          <div class="col-md-6">
+                                                                  <label for="local climate">Scale
+
+                                                </label>
+                                                <input type="number" value="1" id = "chuScale2" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                              </div>
+                                                                      </div>
 
                                                               </div>
                                                               <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
                                                               <label for="som">Min</label>
 
                                                                 <input class="form-control" id = "somMin" type="number" value="3">
+                                                                          </div>
+                                                                          <div class="col-md-6">
+                                                                  <label for="local climate">Scale
+
+                                                </label>
+
+                                                <input type="number" value="1" id = "chuScale3" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                              </div>
+                                                                      </div>
 
                                                               </div>
                                                           </div>
@@ -673,14 +703,13 @@
 
 
 
-                                                <input class="form-control" id = "somValue" name="somValue" type="number">
-                                            </div>
 
-                                             <div class="col-md-2">
+
+                                             <div class="col-md-6">
                                                 <label for="som">Scale
 
                                                 </label>
-                                                <input type="number" value="" id = "somScale" class="form-control" style="padding: 6px 4px;" readonly>
+                                                <input type="number" value="1" id = "somScale" class="form-control" style="padding: 6px 4px;" readonly>
                                                 <script>
                                                     var somScaleCalc = function () {
                                                         var val = document.getElementById('somValue').value;
@@ -783,6 +812,7 @@
                                                               <label for="local climate">Max</label>
 
                                                                 <input class="form-control" id = "localClimateMax"  type="number" value="120">
+
 
                                                               </div>
                                                               <div class="form-group align-center">
@@ -981,6 +1011,77 @@
                                     </div>
 			    				</div>
                             </div>
+
+                           <script>
+
+                               var categories = ["soilType","prevCrop","tillType","som","localClimate","chu"];
+
+                                   var ScaleCalc = function (item) {
+                                       var val = document.getElementById(item + "Value").value;
+                                       var min = document.getElementById(item + "Min").value;
+                                       var max = document.getElementById(item + "Max").value;
+                                       var scaleElem = document.getElementById(item + "Scale");
+                                       var scale = (val - min) / (max - min);
+                                       if (val == "") {
+                                           scale = null;
+                                       }
+
+                                       scaleElem.value = scale;
+                                   };
+                                   var SetValue = function (item) {
+                                       if (item == "localClimate") {
+                                           var climate = document.getElementById("climate");
+                                       }
+                                       else {
+                                           var climate = document.getElementById(item);
+                                       }
+                                        console.log(item);
+                                       var value = document.getElementById(item + "Value");
+                                       if (climate.value != "other") {
+                                           value.value = null;
+                                       }
+                                       ScaleCalc(item);
+
+                                   };
+                                   var SetCat = function (item) {
+                                       if (item == "localClimate") {
+                                           var climate = document.getElementById("climate");
+                                       }
+                                       else {
+                                           var climate = document.getElementById(item);
+                                       }
+                                       var value = document.getElementById(item + "Value");
+                                       if (value.value != null) {
+                                           climate.value = "other";
+                                       }
+                                       ScaleCalc(item);
+                                   };
+                               for (i = 0; i<categories.length;i++) {
+                                   (function() {
+                                       console.log("#" + categories[i] + "Value");
+                                       ScaleCalc(categories[i]);
+                                       $("#" + categories[i] + "Value").change(SetCat(categories[i]));
+                                       if (i == "localClimate") {
+                                           $("#climate").change(SetValue(categories[i]));
+                                       }
+                                       else {
+                                           $("#" + categories[i]).change(SetValue(categories[i]));
+                                       }
+
+                                       $("#" + categories[i] + "Value").change(ScaleCalc(categories[i]));
+                                       $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
+                                       $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
+                                   }());
+                               }
+
+
+
+                           </script>
+
+
+
+
+
 
 
                        </fieldset>
