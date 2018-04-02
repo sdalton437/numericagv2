@@ -214,20 +214,20 @@ def saveUserRequest(request):
         awdr=float(request.POST['awdrother'])
     else:
 
-        lbound, ubound = climate.split('-')
-        awdr = float((int(lbound) + int(ubound)) / 2)
+
+        awdr = float(climate)
     if CHU=='other':
         chu= float(request.POST['chuother'])
     else:
 
-        lbound, ubound= CHU.split('-')
-        chu=float((int(lbound) + int(ubound)) / 2);
+
+        chu=float(CHU);
 
     if SOM=='other':
         som = float(request.POST['somother'])
     else:
-        lbound, ubound = SOM.split('-')
-        som = float((int(lbound) + int(ubound)) / 2);
+
+        som = float(SOM);
 
     print('concreate values ' )
 
