@@ -300,47 +300,9 @@
 
                                                 </label>
                                                 <input type="number" value="" id = "soilTypeScale" class="form-control" style="padding: 6px 4px;" readonly>
-                                                <script>
-                                                    var soilTypeScaleCalc = function () {
-                                                        var val = document.getElementById('soilTypeValue').value;
-                                                        var min = document.getElementById('soilTypeMin').value;
-                                                        var max = document.getElementById('soilTypeMax').value;
-                                                        var scaleElem = document.getElementById('soilTypeScale');
-                                                        var scale = (val-min)/(max-min);
-                                                        if(val==""){
-                                                            scale = null;
-                                                        }
 
-                                                        scaleElem.value = scale;
-                                                    };
-                                                    var soilTypeSetValue = function(){
-                                                        var soilType = document.getElementById("soilType");
-                                                        var value = document.getElementById("soilTypeValue");
-                                                        if(soilType.value != "other"){
-                                                            value.value = null;
-                                                        }
-                                                        soilTypeScaleCalc();
-
-                                                    };
-                                                    var soilTypeSetCat = function(){
-                                                        var soilType = document.getElementById("soilType");
-                                                        var value = document.getElementById("soilTypeValue");
-                                                        if(value.value!=null||value.value!=0){
-                                                            soilType.value="other";
-                                                        }
-                                                        soilTypeScaleCalc();
-                                                    };
-                                                    soilTypeScaleCalc();
-                                                    $( "#soilTypeValue" ).change(soilTypeSetCat);
-                                                    $( "#soilType" ).change(soilTypeSetValue);
-                                                    $( "#soilTypeValue" ).change(soilTypeScaleCalc);
-                                                    $( "#soilTypeMin" ).change(soilTypeScaleCalc);
-                                                    $( "#soilTypeMax" ).change(soilTypeScaleCalc);
-
-
-
-                                                </script>
                                             </div>
+
 
                                         </div>
                                         </div>
@@ -430,46 +392,7 @@
 
                                                 </label>
                                                 <input type="number" value="" id = "prevCropScale" class="form-control" style="padding: 6px 4px;" readonly>
-                                                <script>
-                                                    var prevCropScaleCalc = function () {
-                                                        var val = document.getElementById('prevCropValue').value;
-                                                        var min = document.getElementById('prevCropMin').value;
-                                                        var max = document.getElementById('prevCropMax').value;
-                                                        var scaleElem = document.getElementById('prevCropScale');
-                                                        var scale = (val-min)/(max-min);
-                                                        if(val==""){
-                                                            scale = null;
-                                                        }
 
-                                                        scaleElem.value = scale;
-                                                    };
-                                                    var prevCropSetValue = function(){
-                                                        var prevCrop = document.getElementById("prevCrop");
-                                                        var value = document.getElementById("prevCropValue");
-                                                        if(prevCrop.value != "other"){
-                                                            value.value = null;
-                                                        }
-                                                        prevCropScaleCalc();
-
-                                                    };
-                                                    var prevCropSetCat = function(){
-                                                        var prevCrop = document.getElementById("prevCrop");
-                                                        var value = document.getElementById("prevCropValue");
-                                                        if(value.value!=null||value.value!=0){
-                                                            prevCrop.value="other";
-                                                        }
-                                                        prevCropScaleCalc();
-                                                    };
-                                                    prevCropScaleCalc();
-                                                    $( "#prevCropValue" ).change(prevCropSetCat);
-                                                    $( "#prevCrop" ).change(prevCropSetValue);
-                                                    $( "#prevCropValue" ).change(prevCropScaleCalc);
-                                                    $( "#prevCropMin" ).change(prevCropScaleCalc);
-                                                    $( "#prevCropMax" ).change(prevCropScaleCalc);
-
-
-
-                                                </script>
                                             </div>
 
                                         </div>
@@ -557,46 +480,7 @@
 
                                                 </label>
                                                 <input type="number" value="" id = "tillTypeScale" class="form-control" style="padding: 6px 4px;" readonly>
-                                                <script>
-                                                    var tillTypeScaleCalc = function () {
-                                                        var val = document.getElementById('tillTypeValue').value;
-                                                        var min = document.getElementById('tillTypeMin').value;
-                                                        var max = document.getElementById('tillTypeMax').value;
-                                                        var scaleElem = document.getElementById('tillTypeScale');
-                                                        var scale = (val-min)/(max-min);
-                                                        if(val==""){
-                                                            scale = null;
-                                                        }
 
-                                                        scaleElem.value = scale;
-                                                    };
-                                                    var tillTypeSetValue = function(){
-                                                        var tillType = document.getElementById("tillType");
-                                                        var value = document.getElementById("tillTypeValue");
-                                                        if(tillType.value != "other"){
-                                                            value.value = null;
-                                                        }
-                                                        tillTypeScaleCalc();
-
-                                                    };
-                                                    var tillTypeSetCat = function(){
-                                                        var tillType = document.getElementById("tillType");
-                                                        var value = document.getElementById("tillTypeValue");
-                                                        if(value.value!=null||value.value!=0){
-                                                            tillType.value="other";
-                                                        }
-                                                        tillTypeScaleCalc();
-                                                    };
-                                                    tillTypeScaleCalc();
-                                                    $( "#tillTypeValue" ).change(tillTypeSetCat);
-                                                    $( "#tillType" ).change(tillTypeSetValue);
-                                                    $( "#tillTypeValue" ).change(tillTypeScaleCalc);
-                                                    $( "#tillTypeMin" ).change(tillTypeScaleCalc);
-                                                    $( "#tillTypeMax" ).change(tillTypeScaleCalc);
-
-
-
-                                                </script>
                                             </div>
 
 			    					</div>
@@ -616,7 +500,7 @@
                                                      </a>
                                                  </label>
                                                  <label  for="som">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_som">Set Soil Organic Matter Max/Min</a>
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_som">Set Max/Min</a>
 
 
                                                 </label>
@@ -649,7 +533,7 @@
                                                       <div class="modal-dialog modal-md" role="document">
                                                         <div class="modal-content">
                                                           <div class="modal-header">
-                                                            <h5 class="modal-title font-weight-bold">Set Max and Min Values
+                                                            <h5 class="modal-title font-weight-bold">Set Soil Organic Matter Max and Min Values
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                               <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -710,46 +594,7 @@
 
                                                 </label>
                                                 <input type="number" value="1" id = "somScale" class="form-control" style="padding: 6px 4px;" readonly>
-                                                <script>
-                                                    var somScaleCalc = function () {
-                                                        var val = document.getElementById('somValue').value;
-                                                        var min = document.getElementById('somMin').value;
-                                                        var max = document.getElementById('somMax').value;
-                                                        var scaleElem = document.getElementById('somScale');
-                                                        var scale = (val-min)/(max-min);
-                                                        if(val==""){
-                                                            scale = null;
-                                                        }
 
-                                                        scaleElem.value = scale;
-                                                    };
-                                                    var somSetValue = function(){
-                                                        var som = document.getElementById("som");
-                                                        var value = document.getElementById("somValue");
-                                                        if(som.value != "other"){
-                                                            value.value = null;
-                                                        }
-                                                        somScaleCalc();
-
-                                                    };
-                                                    var somSetCat = function(){
-                                                        var som = document.getElementById("som");
-                                                        var value = document.getElementById("somValue");
-                                                        if(value.value!=null||value.value!=0){
-                                                            som.value="other";
-                                                        }
-                                                        somScaleCalc();
-                                                    };
-                                                    somScaleCalc();
-                                                    $( "#somValue" ).change(somSetCat);
-                                                    $( "#som" ).change(somSetValue);
-                                                    $( "#somValue" ).change(somScaleCalc);
-                                                    $( "#somMin" ).change(somScaleCalc);
-                                                    $( "#somMax" ).change(somScaleCalc);
-
-
-
-                                                </script>
                                             </div>
                                          </div>
 									</div>
@@ -790,13 +635,13 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label  for="local climate">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_localClimate"> Set Scale</a>
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_climate"> Set Scale</a>
 
 
                                                 </label>
                                                 </div>
                                                 </div>
-                                                <div class="modal fade" id="max_min_localClimate" tabindex="-1" role="dialog" aria-labelledby="max_min_localClimate" aria-hidden="true">
+                                                <div class="modal fade" id="max_min_climate" tabindex="-1" role="dialog" aria-labelledby="max_min_climate" aria-hidden="true">
                                                       <div class="modal-dialog modal-sm" role="document">
                                                         <div class="modal-content">
                                                           <div class="modal-header">
@@ -811,14 +656,14 @@
                                                               <div class="form-group align-center">
                                                               <label for="local climate">Max</label>
 
-                                                                <input class="form-control" id = "localClimateMax"  type="number" value="120">
+                                                                <input class="form-control" id = "climateMax"  type="number" value="120">
 
 
                                                               </div>
                                                               <div class="form-group align-center">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "localClimateMin"  type="number" value="90">
+                                                                <input class="form-control" id = "climateMin"  type="number" value="90">
 
                                                               </div>
                                                           </div>
@@ -832,55 +677,15 @@
 
 
 
-                                                <input class="form-control" id = "localClimateValue" name="localClimateValue" type="number">
+                                                <input class="form-control" id = "climateValue" name="climateValue" type="number">
                                             </div>
 
                                              <div class="col-md-2">
                                                 <label for="local climate">Scaled Value
 
                                                 </label>
-                                                <input type="number" value="" id = "localClimateScale" name="localClimateScale" style="padding: 6px 4px;" class="form-control" readonly>
-                                                <script>
-                                                    var localClimateScaleCalc = function () {
-                                                        console.log("scale!");
-                                                        var val = document.getElementById('localClimateValue').value;
-                                                        var min = document.getElementById('localClimateMin').value;
-                                                        var max = document.getElementById('localClimateMax').value;
-                                                        var scaleElem = document.getElementById('localClimateScale');
-                                                        var scale = (val-min)/(max-min);
-                                                        if(val==""){
-                                                            scale = null;
-                                                        }
+                                                <input type="number" value="" id = "climateScale" name="climateScale" style="padding: 6px 4px;" class="form-control" readonly>
 
-                                                        scaleElem.value = scale;
-                                                    };
-                                                    var localClimateSetValue = function(){
-                                                        var climate = document.getElementById("climate");
-                                                        var value = document.getElementById("localClimateValue");
-                                                        if(climate.value != "other"){
-                                                            value.value = null;
-                                                        }
-                                                        localClimateScaleCalc();
-
-                                                    };
-                                                    var localClimateSetCat = function(){
-                                                        var climate = document.getElementById("climate");
-                                                        var value = document.getElementById("localClimateValue");
-                                                        if(value.value!=null||value.value!=0){
-                                                            climate.value="other";
-                                                        }
-                                                        localClimateScaleCalc();
-                                                    };
-                                                    localClimateScaleCalc();
-                                                    $( "#localClimateValue" ).change(localClimateSetCat);
-                                                    $( "#climate" ).change(localClimateSetValue);
-                                                    $( "#localClimateValue" ).change(localClimateScaleCalc);
-                                                    $( "#localClimateMin" ).change(localClimateScaleCalc);
-                                                    $( "#localClimateMax" ).change(localClimateScaleCalc);
-
-
-
-                                                </script>
                                             </div>
                                         </div>
                                     </div>
@@ -965,47 +770,7 @@
 
                                                 </label>
                                                 <input type="number" value="" id = "chuScale" class="form-control" style="padding: 6px 4px;" readonly>
-                                                <script>
-                                                    var chuScaleCalc = function () {
-                                                        console.log("scale!");
-                                                        var val = document.getElementById('chuValue').value;
-                                                        var min = document.getElementById('chuMin').value;
-                                                        var max = document.getElementById('chuMax').value;
-                                                        var scaleElem = document.getElementById('chuScale');
-                                                        var scale = (val-min)/(max-min);
-                                                        if(val==""){
-                                                            scale = null;
-                                                        }
 
-                                                        scaleElem.value = scale;
-                                                    };
-                                                    var chuSetValue = function(){
-                                                        var climate = document.getElementById("chu");
-                                                        var value = document.getElementById("chuValue");
-                                                        if(climate.value != "other"){
-                                                            value.value = null;
-                                                        }
-                                                        chuScaleCalc();
-
-                                                    };
-                                                    var chuSetCat = function(){
-                                                        var climate = document.getElementById("chu");
-                                                        var value = document.getElementById("chuValue");
-                                                        if(value.value!=null){
-                                                            climate.value="other";
-                                                        }
-                                                        chuScaleCalc();
-                                                    };
-                                                    chuScaleCalc();
-                                                    $( "#chuValue" ).change(chuSetCat);
-                                                    $( "#chu" ).change(chuSetValue);
-                                                    $( "#chuValue" ).change(chuScaleCalc);
-                                                    $( "#chuMin" ).change(chuScaleCalc);
-                                                    $( "#chuMax" ).change(chuScaleCalc);
-
-
-
-                                                </script>
                                         </div>
                                     </div>
                                     </div>
@@ -1014,65 +779,52 @@
 
                            <script>
 
-                               var categories = ["soilType","prevCrop","tillType","som","localClimate","chu"];
+                               var categories = ["soilType","prevCrop","tillType","climate","chu"];
 
                                    var ScaleCalc = function (item) {
-                                       var val = document.getElementById(item + "Value").value;
+                                    return function(){
+                                       console.log(item);
+                                       var val = document.getElementById(item).value;
                                        var min = document.getElementById(item + "Min").value;
                                        var max = document.getElementById(item + "Max").value;
                                        var scaleElem = document.getElementById(item + "Scale");
                                        var scale = (val - min) / (max - min);
-                                       if (val == "") {
-                                           scale = null;
-                                       }
 
                                        scaleElem.value = scale;
+                                       console.log(scale);
+                                     }
                                    };
                                    var SetValue = function (item) {
-                                       if (item == "localClimate") {
-                                           var climate = document.getElementById("climate");
-                                       }
-                                       else {
-                                           var climate = document.getElementById(item);
-                                       }
-                                        console.log(item);
+                                    return function(){
+
+                                        var cat = document.getElementById(item);
+
+
                                        var value = document.getElementById(item + "Value");
-                                       if (climate.value != "other") {
-                                           value.value = null;
-                                       }
-                                       ScaleCalc(item);
+                                       value.value = cat.value;
+
+                                    }
 
                                    };
-                                   var SetCat = function (item) {
-                                       if (item == "localClimate") {
-                                           var climate = document.getElementById("climate");
-                                       }
-                                       else {
-                                           var climate = document.getElementById(item);
-                                       }
-                                       var value = document.getElementById(item + "Value");
-                                       if (value.value != null) {
-                                           climate.value = "other";
-                                       }
-                                       ScaleCalc(item);
-                                   };
+
                                for (i = 0; i<categories.length;i++) {
-                                   (function() {
+                                   (function(i) {
                                        console.log("#" + categories[i] + "Value");
                                        ScaleCalc(categories[i]);
-                                       $("#" + categories[i] + "Value").change(SetCat(categories[i]));
-                                       if (i == "localClimate") {
-                                           $("#climate").change(SetValue(categories[i]));
-                                       }
-                                       else {
-                                           $("#" + categories[i]).change(SetValue(categories[i]));
-                                       }
 
-                                       $("#" + categories[i] + "Value").change(ScaleCalc(categories[i]));
+                                       $("#" + categories[i]).change(SetValue(categories[i]));
+                                           $("#" + categories[i]).change(ScaleCalc(categories[i]));
+
+
                                        $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
                                        $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
-                                   }());
+
+                                   })(i);
+
                                }
+
+
+
 
 
 
