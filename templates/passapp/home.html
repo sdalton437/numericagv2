@@ -217,10 +217,16 @@
 			    					<div class="form-group">
 
                                         <div class="row">
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
                                                 <label for="soiltype">Soil Type
                                                     <a href="http://www.info-sols.ca"  target = "_blank">
                                                   <span title="Click on the ? to lookup your site specific soil type" class="glyphicon glyphicon-question-sign"></span></a>
+                                                </label>
+                                                <label  for="soiltype">
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_soilType"> Set Scale</a>
+
+
+
                                                 </label>
                                                 <select class="form-control" id="soilType" name="soilType">
                                                     <option value="0.6667" selected="selected">Clay</option>
@@ -240,7 +246,61 @@
                                                     <option value="0.7778">Silty clay loam</option>
 
                                                 </select>
+
+
+                                                <div class="modal fade" id="max_min_soilType" tabindex="-1" role="dialog" aria-labelledby="max_min_soilType" aria-hidden="true">
+                                                      <div class="modal-dialog modal-sm" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <h5 class="modal-title font-weight-bold">Set Soil Type Scale
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            </h5>
+
+                                                          </div>
+                                                          <div class="modal-body">
+                                                              <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+
+
+                                                              <label for="soilType">Max</label>
+
+                                                                <input class="form-control" id = "soilTypeMax"  type="number" value="5">
+                                                                      </div>
+                                                                          <div class="col-md-6">
+                                                                  <label for="local climate">Scale
+
+                                                </label>
+                                                <input type="number" value="1" id = "soilTypeScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                              </div>
+                                                                      </div>
+
+                                                              </div>
+                                                              <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+                                                              <label for="soilType">Min</label>
+
+                                                                <input class="form-control" id = "soilTypeMin" type="number" value="3">
+                                                                          </div>
+                                                                          <div class="col-md-6">
+
+                                                                              </div>
+                                                                      </div>
+
+                                                              </div>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Set</button>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
                                             </div>
+                                            <!--
                                             <div class="col-md-5">
                                                 <div class="row">
                                                 <div class="col-md-6">
@@ -294,8 +354,8 @@
 
                                                 <input class="form-control" id = "soilTypeValue" name="soilTypeValue" type="number">
                                             </div>
-
-                                           <div class="col-md-2">
+                                            -->
+                                           <div class="col-md-6">
                                                 <label for="soilType">Scaled Value
 
                                                 </label>
@@ -318,12 +378,71 @@
                                         <div class="row">
 
 
-                                           <div class="col-md-5 ">
+                                           <div class="col-md-6 ">
                                                <label for="previouscrop">Previous Crop Contribution
                                                     <a href="description#previouscrop"  target = "_blank">
                                                         <span title="Previous harvested crop at the farm" class="glyphicon glyphicon-question-sign"></span>
                                                     </a>
                                                 </label>
+                                               <label  for="previousCrop">
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_prevCrop">Set Max/Min</a>
+
+
+                                                </label>
+
+                                               <div class="modal fade" id="max_min_prevCrop" tabindex="-1" role="dialog" aria-labelledby="max_min_prevCrop" aria-hidden="true">
+                                                      <div class="modal-dialog modal-sm" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <h5 class="modal-title font-weight-bold">Set Previous Crop Max and Min Values
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            </h5>
+
+                                                          </div>
+                                                          <div class="modal-body">
+                                                              <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+
+
+                                                              <label for="previousCrop">Max</label>
+
+                                                                <input class="form-control" id = "prevCropMax"  type="number" value="5">
+                                                                      </div>
+                                                                          <div class="col-md-6">
+                                                                  <label for="previousCrop">Scale
+
+                                                </label>
+                                                <input type="number" value="1" id = "prevCropScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                              </div>
+                                                                      </div>
+
+                                                              </div>
+                                                              <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+                                                              <label for="previousCrop">Min</label>
+
+                                                                <input class="form-control" id = "prevCropMin" type="number" value="3">
+                                                                          </div>
+                                                                          <div class="col-md-6">
+
+                                                                              </div>
+                                                                      </div>
+
+                                                              </div>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Set</button>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+
+
                                                <select class="form-control" id="prevCrop" name="prevCrop">
 
                                                 <!--categorize all the crops according ot its nutrient contribution such as
@@ -336,6 +455,7 @@
 
                                             </select>
                                            </div>
+                                            <!--
                                            <div class="col-md-5">
                                                 <div class="row">
                                                 <div class="col-md-6">
@@ -386,8 +506,8 @@
 
                                                 <input class="form-control" id = "prevCropValue" name="prevCropValue" type="number">
                                             </div>
-
-                                           <div class="col-md-2">
+                                            -->
+                                           <div class="col-md-6">
                                                 <label for="previousCrop">Scale
 
                                                 </label>
@@ -410,20 +530,79 @@
 
                                     <div class="row">
 
-                                         <div class="col-md-5">
+                                         <div class="col-md-6">
                                              <label for="tillage">Tillage System
                                                  <a href="description#tillage"  target = "_blank">
                                                 <span title="The applied tillage system at the farm" class="glyphicon glyphicon-question-sign">
                                                 </span>
                                                  </a>
                                              </label>
+                                             <label  for="tillage">
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_tillType">Set Values</a>
+
+
+                                                </label>
+
+                                             <div class="modal fade" id="max_min_tillType" tabindex="-1" role="dialog" aria-labelledby="max_min_tillType" aria-hidden="true">
+                                                      <div class="modal-dialog modal-sm" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <h5 class="modal-title font-weight-bold">Set Soil Type Values
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            </h5>
+
+                                                          </div>
+                                                          <div class="modal-body">
+                                                              <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+
+
+                                                              <label for="tillage">Max</label>
+
+                                                                <input class="form-control" id = "tillTypeMax"  type="number" value="5">
+                                                                      </div>
+                                                                          <div class="col-md-6">
+                                                                  <label for="tillage">Scale
+
+                                                </label>
+                                                <input type="number" value="1" id = "tillTypeScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                              </div>
+                                                                      </div>
+
+                                                              </div>
+                                                              <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+                                                              <label for="tillage">Min</label>
+
+                                                                <input class="form-control" id = "tillTypeMin" type="number" value="3">
+                                                                          </div>
+                                                                          <div class="col-md-6">
+
+                                                                              </div>
+                                                                      </div>
+
+                                                              </div>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Set</button>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+
+
                                              <select class="form-control" id="tillType" name="tillType" placeholder="Till Type">
                                                 <option value="0">Max Soil Distortion (Conventional)</option>
                                                 <option value="1">Min Soil Distortion (No till)</option>
                                                 <option value="other">Other</option>
                                              </select>
                                          </div>
-
+                                        <!--
                                          <div class="col-md-5">
                                                 <div class="row">
                                                 <div class="col-md-6">
@@ -474,8 +653,8 @@
 
                                                 <input class="form-control" id = "tillTypeValue" name="tillTypeValue" type="number">
                                             </div>
-
-                                         <div class="col-md-2">
+                                        -->
+                                         <div class="col-md-6">
                                                 <label for="tillage">Scaled Value
 
                                                 </label>
@@ -493,7 +672,7 @@
 
 
                                          <div class="row">
-                                             <div class="col-md-6">
+                                             <div class="col-md-5">
                                                  <label for="som" > Soil Organic Matter (SOM) Contribution
                                                         <a>
                                                        <span title="The soil organic mattter of your farm's soil" class="glyphicon glyphicon-question-sign"></span>
@@ -504,6 +683,7 @@
 
 
                                                 </label>
+
                                               <select class="form-control" id="som" name="som" >
                                                 <option value="1">Very Low (0% - 2%)</option>
                                                 <option value="3">Low (2% - 4%)</option>
@@ -514,21 +694,17 @@
                                                 </select>
                                                 <input class="form-control" type="number" min="1" max="15" step="0.5"id="somother" name="somother" placeholder="e.g., 2, 4, 6 ... 12">
                                              </div>
-                                             <!--
+
                                              <div class="col-md-5">
                                                 <div class="row">
                                                 <div class="col-md-6">
                                                     <label  for="som">SOM (%)</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label  for="som">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_som">Set Max/Min</a>
 
-
-                                                </label>
                                                 </div>
                                                 </div>
-                                                -->
+
                                                 <div class="modal fade" id="max_min_som" tabindex="-1" role="dialog" aria-labelledby="max_min_som" aria-hidden="true">
                                                       <div class="modal-dialog modal-md" role="document">
                                                         <div class="modal-content">
@@ -551,10 +727,10 @@
                                                                 <input class="form-control" id = "somMax"  type="number" value="5">
                                                                       </div>
                                                                           <div class="col-md-6">
-                                                                  <label for="local climate">Scale
+                                                                  <label for="som">Scale
 
                                                 </label>
-                                                <input type="number" value="1" id = "chuScale2" class="form-control" style="padding: 6px 4px;" readonly>
+                                                <input type="number" value="1" id = "somScale1" class="form-control" style="padding: 6px 4px;" readonly>
                                                                               </div>
                                                                       </div>
 
@@ -567,11 +743,7 @@
                                                                 <input class="form-control" id = "somMin" type="number" value="3">
                                                                           </div>
                                                                           <div class="col-md-6">
-                                                                  <label for="local climate">Scale
 
-                                                </label>
-
-                                                <input type="number" value="1" id = "chuScale3" class="form-control" style="padding: 6px 4px;" readonly>
                                                                               </div>
                                                                       </div>
 
@@ -584,23 +756,25 @@
                                                         </div>
                                                       </div>
                                                     </div>
+                                                 <input class="form-control" id = "somValue" name="somValue" type="number" readonly>
 
 
 
 
-
-                                             <div class="col-md-6">
+                                             </div>
+                                             <div class="col-md-2">
                                                 <label for="som">Scale
 
                                                 </label>
                                                 <input type="number" value="1" id = "somScale" class="form-control" style="padding: 6px 4px;" readonly>
 
                                             </div>
-                                         </div>
+
 									</div>
 
 								</div>
                                 </div>
+                              </div>
 
 
 
@@ -618,6 +792,11 @@
                                                     </span>
                                                     </a>
                                                 </label>
+                                                <label  for="local climate">
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_climate"> Set Scale</a>
+
+
+                                                </label>
                                                 <select class="form-control" id="climate" name="climate" >
                                                     <option value="15">Very Dry </option>
                                                     <option value="45">Dry </option>
@@ -631,14 +810,10 @@
                                             <div class="col-md-5">
                                                 <div class="row">
                                                 <div class="col-md-6">
-                                                    <label  for="soiltype">AWDR, mm</label>
+                                                    <label  for="local climate">AWDR, mm</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label  for="local climate">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_climate"> Set Scale</a>
 
-
-                                                </label>
                                                 </div>
                                                 </div>
                                                 <div class="modal fade" id="max_min_climate" tabindex="-1" role="dialog" aria-labelledby="max_min_climate" aria-hidden="true">
@@ -654,16 +829,34 @@
                                                           </div>
                                                           <div class="modal-body">
                                                               <div class="form-group align-center">
-                                                              <label for="local climate">Max</label>
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
 
-                                                                <input class="form-control" id = "climateMax"  type="number" value="120">
 
+                                                              <label for="climate">Max</label>
+
+                                                                <input class="form-control" id = "climateMax"  type="number" value="5">
+                                                                      </div>
+                                                                          <div class="col-md-6">
+                                                                  <label for="local climate">Scale
+
+                                                </label>
+                                                <input type="number" value="1" id = "climateScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                              </div>
+                                                                      </div>
 
                                                               </div>
                                                               <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "climateMin"  type="number" value="90">
+                                                                <input class="form-control" id = "climateMin" type="number" value="3">
+                                                                          </div>
+                                                                          <div class="col-md-6">
+
+                                                                              </div>
+                                                                      </div>
 
                                                               </div>
                                                           </div>
@@ -677,7 +870,7 @@
 
 
 
-                                                <input class="form-control" id = "climateValue" name="climateValue" type="number">
+                                                <input class="form-control" id = "climateValue" name="climateValue" type="number" readonly>
                                             </div>
 
                                              <div class="col-md-2">
@@ -703,6 +896,11 @@
                                                 <span title="The temperature forecast at the farm region" class="glyphicon glyphicon-question-sign"></span>
                                                 </a>
                                             </label>
+                                            <label  for="local climate">
+                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_chu">Set Max/Min</a>
+
+
+                                                </label>
                                             <select class="form-control" id="chu" name="chu" >
                                                  <option value="550">Cold </option>
                                                 <option value="650">Warm </option>
@@ -720,11 +918,7 @@
                                                     <label  for="local climate">CHU, °C</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label  for="local climate">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_chu">Set Max/Min</a>
 
-
-                                                </label>
                                                 </div>
                                                 </div>
                                                 <div class="modal fade" id="max_min_chu" tabindex="-1" role="dialog" aria-labelledby="max_min_chu" aria-hidden="true">
@@ -740,15 +934,34 @@
                                                           </div>
                                                           <div class="modal-body">
                                                               <div class="form-group align-center">
-                                                              <label for="local climate">Max</label>
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
 
-                                                                <input class="form-control" id = "chuMax" type="number" value="900">
+
+                                                              <label for="chu">Max</label>
+
+                                                                <input class="form-control" id = "chuMax"  type="number" value="5">
+                                                                      </div>
+                                                                          <div class="col-md-6">
+                                                                  <label for="local climate">Scale
+
+                                                </label>
+                                                <input type="number" value="1" id = "chuScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                              </div>
+                                                                      </div>
 
                                                               </div>
                                                               <div class="form-group align-center">
-                                                              <label for="local climate">Max</label>
+                                                                  <div class="row">
+                                                                      <div class="col-md-6">
+                                                              <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "chuMin" type="number" value="800">
+                                                                <input class="form-control" id = "chuMin" type="number" value="3">
+                                                                          </div>
+                                                                          <div class="col-md-6">
+
+                                                                              </div>
+                                                                      </div>
 
                                                               </div>
                                                           </div>
@@ -762,7 +975,7 @@
 
 
 
-                                                <input class="form-control" id = "chuValue" name="chuValue" type="number">
+                                                <input class="form-control" id = "chuValue" name="chuValue" type="number" readonly>
                                             </div>
 
                                         <div class="col-md-2">
@@ -779,7 +992,7 @@
 
                            <script>
 
-                               var categories = ["soilType","prevCrop","tillType","climate","chu"];
+                               var categories = ["soilType","prevCrop","tillType","som","climate","chu"];
 
                                    var ScaleCalc = function (item) {
                                     return function(){
@@ -788,9 +1001,11 @@
                                        var min = document.getElementById(item + "Min").value;
                                        var max = document.getElementById(item + "Max").value;
                                        var scaleElem = document.getElementById(item + "Scale");
+                                       var scaleElem1 = document.getElementById(item + "Scale1");
                                        var scale = (val - min) / (max - min);
 
                                        scaleElem.value = scale;
+                                       scaleElem1.value = scale;
                                        console.log(scale);
                                      }
                                    };
@@ -811,8 +1026,9 @@
                                    (function(i) {
                                        console.log("#" + categories[i] + "Value");
                                        ScaleCalc(categories[i]);
-
-                                       $("#" + categories[i]).change(SetValue(categories[i]));
+                                       if(document.getElementById(categories[i] + "Value")) {
+                                           $("#" + categories[i]).change(SetValue(categories[i]));
+                                       }
                                            $("#" + categories[i]).change(ScaleCalc(categories[i]));
 
 
@@ -821,7 +1037,15 @@
 
                                    })(i);
 
+
                                }
+
+                               for (i = 0; i<categories.length;i++) {
+                                   ScaleCalc(categories[i]);
+                                   SetValue(categories[i]);
+                               }
+
+
 
 
 
