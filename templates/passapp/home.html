@@ -996,7 +996,7 @@
 
                                    var ScaleCalc = function (item) {
                                     return function(){
-                                       console.log(item);
+                               
                                        var val = document.getElementById(item).value;
                                        var min = document.getElementById(item + "Min").value;
                                        var max = document.getElementById(item + "Max").value;
@@ -1006,7 +1006,7 @@
 
                                        scaleElem.value = scale;
                                        scaleElem1.value = scale;
-                                       console.log(scale);
+
                                      }
                                    };
                                    var SetValue = function (item) {
@@ -1024,26 +1024,27 @@
 
                                for (i = 0; i<categories.length;i++) {
                                    (function(i) {
-                                       console.log("#" + categories[i] + "Value");
-                                       ScaleCalc(categories[i]);
+
+
                                        if(document.getElementById(categories[i] + "Value")) {
                                            $("#" + categories[i]).change(SetValue(categories[i]));
+                                           $(document).ready(SetValue(categories[i]));
                                        }
                                            $("#" + categories[i]).change(ScaleCalc(categories[i]));
 
 
                                        $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
                                        $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
+                                       $(document).ready(ScaleCalc(categories[i]));
+
+
+
 
                                    })(i);
 
 
                                }
 
-                               for (i = 0; i<categories.length;i++) {
-                                   ScaleCalc(categories[i]);
-                                   SetValue(categories[i]);
-                               }
 
 
 
