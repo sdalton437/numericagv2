@@ -17,6 +17,26 @@
       <!--  javascript function to add option value as years to season variable-->
       <script type="text/javascript">
             $(document).ready(function(){
+
+             $("#chuMin").val({{ minCHU }});
+             $("#chuMax").val({{ maxCHU }});
+
+           $("#tillTypeMin").val({{ minTillType }});
+             $("#tillTypeMax").val({{ maxTillType }});
+
+              $("#prevCropMin").val({{ minPrevCrop }});
+             $("#prevCropMax").val({{ maxPrevCrop }});
+
+             $("#climateMin").val({{ minAWDR }});
+             $("#climateMax").val({{ maxAWDR }});
+
+
+               $("#somMin").val({{ minSOM }});
+             $("#somMax").val({{ maxSOM }});
+
+             $("#soilTypeMin").val({{ minClayRAtio }});
+             $("#soilTypeMax").val({{ maxClayRAtio }});
+
           //default hide the other text values and show only if other is selected as value
            $("input#somother").hide();
            $("input#chuother").hide();
@@ -54,6 +74,7 @@
                 $('#awdrother').hide();
             };
             });
+
        });
 	function addSeasonOption(){
 	var max = new Date().getFullYear(),
@@ -283,7 +304,7 @@
                                                                       <div class="col-md-6">
                                                               <label for="soilType">Min</label>
 
-                                                                <input class="form-control" id = "soilTypeMin" type="number" value="3">
+                                                                <input class="form-control" id = "soilTypeMin" type="number">
                                                                           </div>
                                                                           <div class="col-md-6">
 
@@ -602,58 +623,8 @@
                                                 <option value="other">Other</option>
                                              </select>
                                          </div>
-                                        <!--
-                                         <div class="col-md-5">
-                                                <div class="row">
-                                                <div class="col-md-6">
-                                                    <label  for="tillType">Value</label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label  for="tillage">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_tillType">Set Values</a>
 
 
-                                                </label>
-                                                </div>
-                                                </div>
-                                                <div class="modal fade" id="max_min_tillType" tabindex="-1" role="dialog" aria-labelledby="max_min_tillType" aria-hidden="true">
-                                                      <div class="modal-dialog modal-sm" role="document">
-                                                        <div class="modal-content">
-                                                          <div class="modal-header">
-                                                            <h5 class="modal-title font-weight-bold">Set Soil Type Values
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                              <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                            </h5>
-
-                                                          </div>
-                                                          <div class="modal-body">
-                                                              <div class="form-group align-center">
-                                                              <label for="tillage">Maximum N Retention</label>
-
-                                                                <input class="form-control" id = "tillTypeMax" type="number" value="5">
-
-                                                              </div>
-                                                              <div class="form-group align-center">
-                                                              <label for="tillage">Minimum N Retention</label>
-
-                                                                <input class="form-control" id = "tillTypeMin" type="number" value="3">
-
-                                                              </div>
-                                                          </div>
-                                                          <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Set</button>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-
-
-
-                                                <input class="form-control" id = "tillTypeValue" name="tillTypeValue" type="number">
-                                            </div>
-                                        -->
                                          <div class="col-md-6">
                                                 <label for="tillage">Scaled Value
 
@@ -851,7 +822,7 @@
                                                                       <div class="col-md-6">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "climateMin" type="number" value="3">
+                                                                <input class="form-control" id = "climateMin" type="number">
                                                                           </div>
                                                                           <div class="col-md-6">
 
@@ -940,7 +911,7 @@
 
                                                               <label for="chu">Max</label>
 
-                                                                <input class="form-control" id = "chuMax"  type="number" value="5">
+                                                                <input class="form-control" id = "chuMax"  type="number">
                                                                       </div>
                                                                           <div class="col-md-6">
                                                                   <label for="local climate">Scale
@@ -956,7 +927,7 @@
                                                                       <div class="col-md-6">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "chuMin" type="number" value="3">
+                                                                <input class="form-control" id = "chuMin" type="number">
                                                                           </div>
                                                                           <div class="col-md-6">
 
@@ -996,7 +967,7 @@
 
                                    var ScaleCalc = function (item) {
                                     return function(){
-                               
+
                                        var val = document.getElementById(item).value;
                                        var min = document.getElementById(item + "Min").value;
                                        var max = document.getElementById(item + "Max").value;
