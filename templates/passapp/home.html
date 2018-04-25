@@ -304,7 +304,7 @@
                                                                       <div class="col-md-6">
                                                               <label for="soilType">Min</label>
 
-                                                                <input class="form-control" id = "soilTypeMin" type="number">
+                                                                <input class="form-control" id = "soilTypeMin" type="number" value="3">
                                                                           </div>
                                                                           <div class="col-md-6">
 
@@ -377,7 +377,7 @@
                                             </div>
                                             -->
                                            <div class="col-md-6">
-                                                <label for="soilType">Scaled Value
+                                                <label for="soilType">Scale
 
                                                 </label>
                                                 <input type="number" value="" id = "soilTypeScale" class="form-control" style="padding: 6px 4px;" readonly>
@@ -626,7 +626,7 @@
 
 
                                          <div class="col-md-6">
-                                                <label for="tillage">Scaled Value
+                                                <label for="tillage">Scale
 
                                                 </label>
                                                 <input type="number" value="" id = "tillTypeScale" class="form-control" style="padding: 6px 4px;" readonly>
@@ -701,7 +701,7 @@
                                                                   <label for="som">Scale
 
                                                 </label>
-                                                <input type="number" value="1" id = "somScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                <input type="number" value="1" id = "somScale1" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -727,7 +727,7 @@
                                                         </div>
                                                       </div>
                                                     </div>
-                                                 <input class="form-control" id = "somValue" name="somValue" type="number" readonly>
+                                                 <input class="form-control" id = "somValue" name="somValue" type="number">
 
 
 
@@ -822,7 +822,7 @@
                                                                       <div class="col-md-6">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "climateMin" type="number">
+                                                                <input class="form-control" id = "climateMin" type="number" value="3">
                                                                           </div>
                                                                           <div class="col-md-6">
 
@@ -841,11 +841,11 @@
 
 
 
-                                                <input class="form-control" id = "climateValue" name="climateValue" type="number" readonly>
+                                                <input class="form-control" id = "climateValue" name="climateValue" type="number">
                                             </div>
 
                                              <div class="col-md-2">
-                                                <label for="local climate">Scaled Value
+                                                <label for="local climate">Scale
 
                                                 </label>
                                                 <input type="number" value="" id = "climateScale" name="climateScale" style="padding: 6px 4px;" class="form-control" readonly>
@@ -911,7 +911,7 @@
 
                                                               <label for="chu">Max</label>
 
-                                                                <input class="form-control" id = "chuMax"  type="number">
+                                                                <input class="form-control" id = "chuMax"  type="number" value="5">
                                                                       </div>
                                                                           <div class="col-md-6">
                                                                   <label for="local climate">Scale
@@ -927,7 +927,7 @@
                                                                       <div class="col-md-6">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "chuMin" type="number">
+                                                                <input class="form-control" id = "chuMin" type="number" value = "3">
                                                                           </div>
                                                                           <div class="col-md-6">
 
@@ -946,7 +946,7 @@
 
 
 
-                                                <input class="form-control" id = "chuValue" name="chuValue" type="number" readonly>
+                                                <input class="form-control" id = "chuValue" name="chuValue" type="number">
                                             </div>
 
                                         <div class="col-md-2">
@@ -967,14 +967,24 @@
 
                                    var ScaleCalc = function (item) {
                                     return function(){
-
-                                       var val = document.getElementById(item).value;
+                                        if(document.getElementById(item + "Value")) {
+                                            var val = document.getElementById(item + "Value").value;
+                                        }
+                                        else{
+                                            var val = document.getElementById(item).value;
+                                        }
                                        var min = document.getElementById(item + "Min").value;
+                                       console.log(min);
                                        var max = document.getElementById(item + "Max").value;
                                        var scaleElem = document.getElementById(item + "Scale");
                                        var scaleElem1 = document.getElementById(item + "Scale1");
                                        var scale = (val - min) / (max - min);
+                                       console.log("Here");
+                                       console.log(val);
+                                       console.log(min);
+                                       console.log(max);
 
+                                        console.log(scale);
                                        scaleElem.value = scale;
                                        scaleElem1.value = scale;
 
@@ -983,14 +993,23 @@
                                    var SetValue = function (item) {
                                     return function(){
 
-                                        var cat = document.getElementById(item);
+                                      var cat = document.getElementById(item);
 
 
-                                       var value = document.getElementById(item + "Value");
-                                       value.value = cat.value;
+                                      var value = document.getElementById(item + "Value");
+                                      value.value = cat.value;
 
                                     }
 
+                                   };
+
+                                   var SetCat = function(item){
+                                      return function(){
+                                        var cat = document.getElementById(item);
+
+                                        cat.value = "other"
+
+                                      }
                                    };
 
                                for (i = 0; i<categories.length;i++) {
@@ -1001,9 +1020,9 @@
                                            $("#" + categories[i]).change(SetValue(categories[i]));
                                            $(document).ready(SetValue(categories[i]));
                                        }
-                                           $("#" + categories[i]).change(ScaleCalc(categories[i]));
-
-
+                                       $("#" + categories[i]).change(ScaleCalc(categories[i]));
+                                       $("#" + categories[i] + "Value").change(SetCat(categories[i]));
+                                       $("#" + categories[i] + "Value").change(ScaleCalc(categories[i]));
                                        $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
                                        $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
                                        $(document).ready(ScaleCalc(categories[i]));
