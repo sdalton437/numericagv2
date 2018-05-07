@@ -132,35 +132,79 @@ def authenticateUser(request):
 
 @login_required()
 def index(request):
-        print('Start , generalviews, index()')
-        # if not request.user.is_authenticated:
-        #     print('use os not authenticated, please login')
-        #     return redirect((settings.LOGIN_URL, request.path))
+    print('Start , generalviews, index()')
+    # if not request.user.is_authenticated:
+    #     print('use os not authenticated, please login')
+    #     return redirect((settings.LOGIN_URL, request.path))
 
-        if request.user.is_active == False:
-            messages.error(request, "Activatioin pending, check your email and click on link given to activate!")
+    if request.user.is_active == False:
+        messages.error(request, "Activatioin pending, check your email and click on link given to activate!")
 
-        ' commented  this, added the voptions manually in the home.html file as plotyield table containing the data is belong to dssservice module'
-        # print('fetching basic input values from database')
-        # latest_dataset_list = PDataset1.objects.all()
-        # #tillTypes=latest_dataset_list.order_by('TillType').distinct('TillType')
-        # tillTypes = PDataset1.objects.order_by('TillType').values('TillType').distinct() #PDataset1.objects.order_by('TillType').distinct('TillType')
-        # # soilTypes = [] #PDataset1.objects.order_by('SoilType').distinct('SoilType') works only with PostgreSQL
-        # soilTypes=PDataset1.objects.order_by('SoilType').values('SoilType').distinct() #MySQL + PostgreSQL
-        # prevCrops = PDataset1.objects.order_by('PrevCrop').values('PrevCrop').distinct()#PDataset1.objects.order_by('PrevCrop').distinct('PrevCrop')
+    ' commented  this, added the voptions manually in the home.html file as plotyield table containing the data is belong to dssservice module'
+    # print('fetching basic input values from database')
+    # latest_dataset_list = PDataset1.objects.all()
+    # #tillTypes=latest_dataset_list.order_by('TillType').distinct('TillType')
+    # tillTypes = PDataset1.objects.order_by('TillType').values('TillType').distinct() #PDataset1.objects.order_by('TillType').distinct('TillType')
+    # # soilTypes = [] #PDataset1.objects.order_by('SoilType').distinct('SoilType') works only with PostgreSQL
+    # soilTypes=PDataset1.objects.order_by('SoilType').values('SoilType').distinct() #MySQL + PostgreSQL
+    # prevCrops = PDataset1.objects.order_by('PrevCrop').values('PrevCrop').distinct()#PDataset1.objects.order_by('PrevCrop').distinct('PrevCrop')
+    # check if user input preferences are prsent for the user
+    # user_preference=UserInputPreference.objects.filter(user=request.user)
+    #
+    # if not user_preference:
+    #     # #user preference not present, fetch values from database and create default preference
+    #
+    from django.db.models import Max, Min
+    dbTrials = PlotYield.objects.all()
+    minCHU = dbTrials.aggregate(Min('CHU'))
+    maxCHU = dbTrials.aggregate(Max('CHU'))
+    minClayRatio = dbTrials.aggregate(Min('ClayRatio'))
+    maxClayRAtio = dbTrials.aggregate(Max('ClayRatio'))
+    minSOM = dbTrials.aggregate(Min('SOM'))
+    maxSOM = dbTrials.aggregate(Max('SOM'))
+    minAWDR = dbTrials.aggregate(Min('AWDR'))
+    maxAWDR = dbTrials.aggregate(Max('AWDR'))
+    maxPrevCrop = dbTrials.aggregate(Max('PrevContribN_int'))
+    minPrevCrop = dbTrials.aggregate(Min('PrevContribN_int'))
+    minTillType = dbTrials.aggregate(Min('TillType_int'))
+    maxTillType = dbTrials.aggregate(Max('TillType_int'))
 
-        print('calling online resoruce finder for price and cost')
-        cornPrice=OnlineResourcesFinder.getCornPrice()
-        print('corn price fetched : '+ str(cornPrice))
+    print('minCHU', minCHU)
+    print('maxCHU', maxCHU)
+    print('minClayRatio', minClayRatio)
+    print('maxClayRAtio', maxClayRAtio)
+    print('minSOM', minSOM)
+    print('maxSOM', maxSOM)
+    print('minAWDR', minAWDR)
+    print('maxAWDR', maxAWDR)
+    print('maxPrevCrop', maxPrevCrop)
+    print('minPrevCrop', minPrevCrop)
+    print('minTillType', minTillType)
+    print('maxTillType', maxTillType)
 
-        Ncost= OnlineResourcesFinder.getNitrogenCost()
-        print('N cost fetched :'+ str(Ncost))
+    # upref= UserInputPreference(user=request.user, parameter='CHU',min=minCHU,max=maxCHU,numeric=None)
+    # upref = UserInputPreference(user=request.user, parameter='ClayRatio', min=minClayRatio, max=maxClayRAtio, numeric=None)
+    # upref = UserInputPreference(user=request.user, parameter='SOM', min=minSOM, max=maxSOM, numeric=None)
+    # upref = UserInputPreference(user=request.user, parameter='awdr', min=minAWDR, max=maxAWDR, numeric=None)
 
-        context = {'Ncost':Ncost,'cornPrice': cornPrice}
+    print('calling online resoruce finder for price and cost')
+    cornPrice = OnlineResourcesFinder.getCornPrice()
+    print('corn price fetched : ' + str(cornPrice))
 
-        print('End , generalviews, index()')
+    Ncost = OnlineResourcesFinder.getNitrogenCost()
+    print('N cost fetched :' + str(Ncost))
 
-        return  render(request,'passapp/home.html',context)
+    context = {'Ncost': Ncost, 'cornPrice': cornPrice, 'minCHU': minCHU['CHU__min'], 'maxCHU': maxCHU['CHU__max'],
+               'minClayRatio': minClayRatio['ClayRatio__min'], 'maxClayRAtio': maxClayRAtio['ClayRatio__max'],
+               'minSOM': minSOM['SOM__min'], 'maxSOM': maxSOM['SOM__max'], 'minAWDR': minAWDR['AWDR__min'],
+               'maxAWDR': maxAWDR['AWDR__max'],
+               'maxPrevCrop': maxPrevCrop['PrevContribN_int__max'], 'minPrevCrop': minPrevCrop['PrevContribN_int__min'],
+               'minTillType': minTillType['TillType_int__min'], 'maxTillType': maxTillType['TillType_int__max']
+               }
+
+    print('End , generalviews, index()')
+
+    return render(request, 'passapp/home.html', context)
 
 
 @transaction.atomic
@@ -174,13 +218,13 @@ def saveUserRequest(request):
     fertilizer=request.POST.get('fertilizer', '')
     currentcrop=request.POST.get('currentcrop', '')
     season=request.POST.get('season', '')
-    soilType = request.POST.get('soilType', '')
-    tillType = request.POST.get('tillType', '')
+    clayRatio = request.POST.get('soilType', '')
+    tillTypeVal = request.POST.get('tillType', '')
     SOM = request.POST.get('som', '')
     latitude = request.POST.get('latitude', '')
     longitude = request.POST.get('longitude', '')
     climate = request.POST.get('climate', '')
-    prevCrop = request.POST.get('prevCrop', '')
+    prevCropVal = request.POST.get('prevCrop', '')
     CHU= request.POST.get('chu', '')
     print((request.POST.get('meanprice', '').strip()))
     meanprice = float(request.POST.get('meanprice', '').strip())
@@ -192,12 +236,12 @@ def saveUserRequest(request):
 
     print("currentcrop :" + str(currentcrop))
     print("season :" + str(season))
-    print("soilType :" + str(soilType))
-    print("tillType :" + str(tillType))
+    print("soilType :" + str(clayRatio))
+    print("tillType :" + str(tillTypeVal))
     print("latitude :" + str(latitude))
     print("longitude :" + str(longitude))
     print("climate :" + str(climate))
-    print("prevCrop :" + str(prevCrop))
+    print("prevCrop :" + str(prevCropVal))
     print("meanprice :" + str(meanprice))
     print("stdprice :" + str(stdprice))
     print("meancost :" + str(meancost))
@@ -235,10 +279,16 @@ def saveUserRequest(request):
     print("awdr :", awdr)
     print("som :", som)
 
+    tillTypelookup = int(dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal)[0].value)
+    clayratiolookup = float(dsslookup.objects.filter(fieldname='soil_type_clay_ratio', value=clayRatio)[0].value)
+    prevCropLookup = int(
+        dsslookup.objects.filter(fieldname='prev_crop_N_contrib', value=prevCropVal)[0].value)
+
+
     #user = User.objects.get(username=request.session['username'])
     #Store user request in user trans request
-    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=soilType,tilltype=tillType,
-                        latitude=latitude,longitude=longitude,awdr=awdr,prev_crop=prevCrop,CHU=chu,SOM=som,price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
+    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup,tilltype=tillTypelookup,
+                        latitude=latitude,longitude=longitude,awdr=awdr,prev_crop=prevCropLookup,CHU=chu,SOM=som,price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
     ur.save()
     print('user site request has been saved successfully, id', ur.id)
 

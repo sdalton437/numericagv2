@@ -10,6 +10,9 @@
     <!--<link rel="icon" href="../../favicon.ico">-->
 
     <title>NumericAg,Home</title>
+    <script type='text/javascript' src='http://knockoutjs.com/downloads/knockout-3.4.2.js'></script>
+
+
 
 	{% load static %}
     {% include "passapp/base.html" %}
@@ -17,7 +20,19 @@
       <!--  javascript function to add option value as years to season variable-->
       <script type="text/javascript">
             $(document).ready(function(){
-
+                var minCHU = 550;
+                var maxCHU = 950;
+                var minTillType = +({{ minTillType }}).toFixed(2);
+                var maxTillType = {{ maxTillType }};
+                var minPrevCrop = {{ minPrevCrop }};
+                var maxPrevCrop = {{ maxPrevCrop }};
+                var minAWDR = 15;
+                var maxAWDR = 135;
+                var minSOM = 1;
+                var maxSOM = 12;
+                var minClayRatio = 0.0323;
+                var maxClayRatio = 0.8824;
+                console.log("minTillType " + minTillType )
              $("#chuMin").val({{ minCHU }});
              $("#chuMax").val({{ maxCHU }});
 
@@ -34,10 +49,9 @@
                $("#somMin").val({{ minSOM }});
              $("#somMax").val({{ maxSOM }});
 
-             $("#soilTypeMin").val({{ minClayRAtio }});
+             $("#soilTypeMin").val({{ minClayRatio }});
              $("#soilTypeMax").val({{ maxClayRAtio }});
 
-                console.log("MIN CHU " + minCHU);
           //default hide the other text values and show only if other is selected as value
            $("input#somother").hide();
            $("input#chuother").hide();
@@ -90,7 +104,26 @@
 		}
 		}
 		window.onload = addSeasonOption;
+
 	</script>
+
+      <!-- Knockout JS -->
+      <script type="text/javascript">
+
+          var CropContrib = function(name,value){
+              this.name = name;
+              this.value = value;
+          }
+
+          var ViewModel = {
+              noTill: ko.observable(1.00),
+              convTill: ko.observable(0.9),
+              lowNutrientCont: ko.observable(0.50),
+              modNutrientCont: ko.observable(0.75),
+              highNutrientCont: ko.observable(1.00)
+          };
+
+          </script>
     <style>
 
     fieldset.scheduler-border {
@@ -267,16 +300,20 @@
                                                                       <div class="col-md-8">
 
 
-                                                              <label for="tillage">Max</label>
+                                                              <label for="tillage"> </label>
 
-                                                                <input class="form-control" id = "tillTypeMax"  type="number" value="5">
+                                                                <select class="form-control" id="tillTypeCat1" name="tillType" placeholder="Till Type" readonly>
+
+                                                                    <option value=maxTillType  selected="selected">Min Soil Distortion (No till)</option>
+
+                                                                 </select>
                                                                       </div>
 
                                                                           <div class="col-md-4">
                                                                   <label for="tillage">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" value="1" id = "tillTypeScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                <input type="number" value=maxTillType id = "tillTypeMax" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -284,13 +321,20 @@
                                                               <div class="form-group align-center">
                                                                   <div class="row">
                                                                       <div class="col-md-8">
-                                                              <label for="tillage">Min</label>
+                                                              <label for="tillage"></label>
 
-                                                                <input class="form-control" id = "tillTypeMin" type="number" value="3">
+                                                                <select class="form-control" id="tillTypeCat1" name="tillType" placeholder="Till Type" readonly>
+                                                                    <option value="0" selected="selected">Max Soil Distortion (Conventional)</option>
+
+
+                                                                 </select>
                                                                           </div>
 
                                                                           <div class="col-md-4">
+                                                                            <label for="tillage">Relative Value (0-1)
 
+                                                </label>
+                                                <input type="number" value=minTillType id = "tillTypeMin" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -306,9 +350,9 @@
 
 
                                              <select class="form-control" id="tillType" name="tillType" placeholder="Till Type">
-                                                <option value="0">Max Soil Distortion (Conventional)</option>
-                                                <option value="1">Min Soil Distortion (No till)</option>
-                                                <option value="other">Other</option>
+
+                                                <option value="1" selected="selected">Min Soil Distortion (No till)</option>
+
                                              </select>
                                          </div>
 
@@ -366,17 +410,22 @@
                                                                   <div class="row">
                                                                       <div class="col-md-8">
 
+                                                                <label for="previouscrop">Max</label>
+                                                              <select class="form-control" id="prevCrop" name="prevCrop">
 
-                                                              <label for="previousCrop">Max</label>
-
-                                                                <input class="form-control" id = "prevCropMax"  type="number" value="5">
+                                                <!--categorize all the crops according ot its nutrient contribution such as
+                                                (Low: corn, cereals, Moderate: Soybean, forage and Strong: Grass, GreenPeas)  -->
+                                                <option value="{{ minPrevCrop }}">Low nutrient contribution (e.g., Corn, Potatoes etc.)</option>
+                                            <option   value="50">Moderate nutrient contribution (e.g., Soybean, Forage etc.)</option>
+                                             <option value="{{ maxPrevCrop }}" selected="selected"> Strong nutrient contribution (e.g., Legumes, GreenPeas etc.) </option>
+                                        </select>
                                                                       </div>
 
                                                                           <div class="col-md-4">
                                                                   <label for="previousCrop">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" value="1" id = "prevCropScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                <input type="number" value="{{ prevCropMax }}" id = "prevCropMax" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -384,13 +433,45 @@
                                                               <div class="form-group align-center">
                                                                   <div class="row">
                                                                       <div class="col-md-8">
-                                                              <label for="previousCrop">Min</label>
+                                                                          <label for="tillage">Min</label>
+                                                              <select class="form-control" id="prevCrop" name="prevCrop">
 
-                                                                <input class="form-control" id = "prevCropMin" type="number" value="3">
+                                                <!--categorize all the crops according ot its nutrient contribution such as
+                                                (Low: corn, cereals, Moderate: Soybean, forage and Strong: Grass, GreenPeas)  -->
+                                                <option value="{{ minPrevCrop }}" selected="selected">Low nutrient contribution (e.g., Corn, Potatoes etc.)</option>
+                                            <option   value="50">Moderate nutrient contribution (e.g., Soybean, Forage etc.)</option>
+                                             <option value="{{minPrevCrop}} " > Strong nutrient contribution (e.g., Legumes, GreenPeas etc.) </option>
+                                        </select>
                                                                           </div>
 
                                                                           <div class="col-md-4">
+                                                                               <label for="previousCrop">Relative Value (0-1)
 
+                                                </label>
+                                            <input type="number" value="{{ prevCropMin }}" id = "prevCropMin" class="form-control" style="padding: 6px 4px;">
+                                                                              </div>
+                                                                      </div>
+
+                                                              </div>
+                                                               <div class="form-group align-center">
+                                                                  <div class="row">
+                                                                      <div class="col-md-8">
+                                                                          <label for="previouscrop">Contribution from Previous Crop</label>
+                                                              <select class="form-control" id="prevCrop" name="prevCrop">
+
+                                                <!--categorize all the crops according ot its nutrient contribution such as
+                                                (Low: corn, cereals, Moderate: Soybean, forage and Strong: Grass, GreenPeas)  -->
+                                                <option value="0">Low nutrient contribution (e.g., Corn, Potatoes etc.)</option>
+                                            <option selected="selected"  value="50">Moderate nutrient contribution (e.g., Soybean, Forage etc.)</option>
+                                             <option value="100"> Strong nutrient contribution (e.g., Legumes, GreenPeas etc.) </option>
+                                       </select>
+                                                                          </div>
+
+                                                                          <div class="col-md-4">
+                                                                        <label for="previousCrop">Relative Value (0-1)
+
+                                                </label>
+                                            <input type="number" value="0.5" id = "prevCropValue1" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -544,6 +625,7 @@
 
                                                                           <div class="col-md-4">
                                                                   <label for="local climate">Clay Ratio (%)
+                                                                      The name is <span data-bind="text: test"></span>
 
                                                 </label>
                                                 <input type="number" value="1" id = "soilTypeValue1" class="form-control" style="padding: 6px 4px;" readonly>
@@ -1023,18 +1105,16 @@
                                        var min = document.getElementById(item + "Min").value;
                                        console.log(min);
                                        var max = document.getElementById(item + "Max").value;
-                                       var scaleElem = document.getElementById(item + "Scale");
-                                       var scaleElem1 = document.getElementById(item + "Scale1");
+
                                        var scale = +(((val - min) / (max - min)).toFixed(2));
 
-                                       console.log("Here");
-                                       console.log(val);
-                                       console.log(min);
-                                       console.log(max);
-
-                                        console.log(scale);
+                                       var scaleElem = document.getElementById(item + "Scale");
+                                       if(document.getElementById(item + "Scale1")) {
+                                           var scaleElem1 = document.getElementById(item + "Scale1");
+                                           scaleElem1.value = scale;
+                                       }
                                        scaleElem.value = scale;
-                                       scaleElem1.value = scale;
+
 
                                      }
                                    };
@@ -1042,8 +1122,6 @@
                                     return function(){
 
                                       var cat = document.getElementById(item);
-
-
                                       var value = document.getElementById(item + "Value");
                                       var value1 = document.getElementById(item + "Value1");
                                       value.value = cat.value;
@@ -1052,6 +1130,12 @@
                                     }
 
                                    };
+
+                                   var UpdateValueMin = function(){
+                                       var min = document.getElementById("tillTypeMin");
+                                       
+
+                                   }
 
                                    var SetCat = function(item){
                                       return function(){
@@ -1076,9 +1160,6 @@
                                        $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
                                        $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
                                        $(document).ready(ScaleCalc(categories[i]));
-
-
-
 
                                    })(i);
 
@@ -1178,4 +1259,10 @@
     </div> <!-- /container -->
     {% include "passapp/footer.html" %}
   </body>
+  <script>
+      ko.applyBindings(ViewModel);
+
+  </script>
+
+
 </html>
