@@ -1267,9 +1267,18 @@
                                    var SetCat = function(item){
                                       return function(){
                                         var cat = document.getElementById(item);
-
-                                        cat.value = "other"
-
+                                        var value = document.getElementById(item + "Value");
+                                        var value1 = document.getElementById(item + "Value1");
+                                        value1.value = value.value;
+                                        for(i=0;i<cat.length;i++){
+                                          if(cat.options[i].value == value.value){
+                                              cat.value = cat.options[i].value;
+                                              break;
+                                          }
+                                          else{
+                                              cat.value = "other"
+                                          }
+                                        }
                                       }
                                    };
 

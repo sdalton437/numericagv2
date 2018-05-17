@@ -170,6 +170,7 @@ def index(request):
     maxTillType = dbTrials.aggregate(Max('TillType_int'))
 
     #Find parameters of users' last session
+    '''
     if UserRquestSite.objects.filter(user_id=request.session['userid']).exists():
         userData = UserRquestSite.objects.filter(user_id=request.session['userid']).last()
         userTillage = userData.tilltype
@@ -180,12 +181,14 @@ def index(request):
         userAWDR = userData.awdr
 
     else:
-        userTillage = 1
-        userPrevCrop = 0.5
-        userClayRatio = 0.6667
-        userSOM = 5
-        userCHU = 750
-        userAWDR = 75
+        '''
+    userTillage = 1
+    userPrevCrop = 0.5
+    userClayRatio = 0.6667
+    userSOM = 5
+    userCHU = 750
+    userAWDR = 75
+
 
     print('minCHU', minCHU)
     print('maxCHU', maxCHU)
@@ -352,7 +355,7 @@ def saveUserRequest(request):
 
     #user = User.objects.get(username=request.session['username'])
     #Store user request in user trans request
-    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup,tilltype=tillTypelookup,
+    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup,soiltype_min=clayRatioMin, tilltype=tillTypelookup,
                         latitude=latitude,longitude=longitude,awdr=awdr,prev_crop=prevCropLookup,CHU=chu,SOM=som,price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
     ur.save()
     print('user site request has been saved successfully, id', ur.id)
