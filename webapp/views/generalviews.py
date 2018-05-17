@@ -169,6 +169,24 @@ def index(request):
     minTillType = dbTrials.aggregate(Min('TillType_int'))
     maxTillType = dbTrials.aggregate(Max('TillType_int'))
 
+    #Find parameters of users' last session
+    if UserRquestSite.objects.filter(user_id=request.session['userid']).exists():
+        userData = UserRquestSite.objects.filter(user_id=request.session['userid']).last()
+        userTillage = userData.tilltype
+        userPrevCrop = userData.prev_crop
+        userClayRatio = userData.soiltype
+        userSOM = userData.SOM
+        userCHU = userData.CHU
+        userAWDR = userData.awdr
+
+    else:
+        userTillage = 1
+        userPrevCrop = 0.5
+        userClayRatio = 0.6667
+        userSOM = 5
+        userCHU = 750
+        userAWDR = 75
+
     print('minCHU', minCHU)
     print('maxCHU', maxCHU)
     print('minClayRatio', minClayRatio)
@@ -181,6 +199,8 @@ def index(request):
     print('minPrevCrop', minPrevCrop)
     print('minTillType', minTillType)
     print('maxTillType', maxTillType)
+    print('userSOM', userSOM)
+
 
     # upref= UserInputPreference(user=request.user, parameter='CHU',min=minCHU,max=maxCHU,numeric=None)
     # upref = UserInputPreference(user=request.user, parameter='ClayRatio', min=minClayRatio, max=maxClayRAtio, numeric=None)
@@ -199,8 +219,8 @@ def index(request):
                'minSOM': minSOM['SOM__min'], 'maxSOM': maxSOM['SOM__max'], 'minAWDR': minAWDR['AWDR__min'],
                'maxAWDR': maxAWDR['AWDR__max'],
                'maxPrevCrop': maxPrevCrop['PrevContribN_int__max'], 'minPrevCrop': minPrevCrop['PrevContribN_int__min'],
-               'minTillType': minTillType['TillType_int__min'], 'maxTillType': maxTillType['TillType_int__max']
-               }
+               'minTillType': minTillType['TillType_int__min'], 'maxTillType': maxTillType['TillType_int__max'],'userTillage': userTillage,'userPrevCrop': userPrevCrop,
+               'userClayRatio': userClayRatio, 'userSOM': userSOM, 'userCHU': userCHU,'userAWDR': userAWDR,}
 
     print('End , generalviews, index()')
 
@@ -219,13 +239,27 @@ def saveUserRequest(request):
     currentcrop=request.POST.get('currentcrop', '')
     season=request.POST.get('season', '')
     clayRatio = request.POST.get('soilType', '')
+    clayRatioMin = request.POST.get('soilTypeMin', '')
+    clayRatioMax = request.POST.get('soilTypeMax', '')
     tillTypeVal = request.POST.get('tillType', '')
+    tillTypeNoTill = request.POST.get('tillTypeNoTill', '')
+    tillTypeConvTill = request.POST.get('tillTypeConvTill', '')
     SOM = request.POST.get('som', '')
+    SOMMin = request.POST.get('somMin', '')
+    SOMMax = request.POST.get('somMax', '')
     latitude = request.POST.get('latitude', '')
     longitude = request.POST.get('longitude', '')
     climate = request.POST.get('climate', '')
+    climateMin = request.POST.get('climateMin', '')
+    climateMax = request.POST.get('climateMax', '')
+
     prevCropVal = request.POST.get('prevCrop', '')
+    prevCropLow = request.POST.get('prevCropLow', '')
+    prevCropMod = request.POST.get('prevCropMod', '')
+    prevCropHigh = request.POST.get('prevCropHigh', '')
     CHU= request.POST.get('chu', '')
+    CHUMin = request.POST.get('chuMin', '')
+    CHUMax = request.POST.get('chuMax', '')
     print((request.POST.get('meanprice', '').strip()))
     meanprice = float(request.POST.get('meanprice', '').strip())
     stdprice = float(request.POST.get('stdprice', '').strip())
@@ -237,38 +271,59 @@ def saveUserRequest(request):
     print("currentcrop :" + str(currentcrop))
     print("season :" + str(season))
     print("soilType :" + str(clayRatio))
+    print("soilTypeMin :" + str(clayRatioMin))
+    print("soilTypeMax :" + str(clayRatioMax))
     print("tillType :" + str(tillTypeVal))
+    print("tillType (No Till):" + str(tillTypeNoTill))
+    print("tillType (Conventional Till):" + str(tillTypeConvTill))
     print("latitude :" + str(latitude))
     print("longitude :" + str(longitude))
     print("climate :" + str(climate))
+    print("climate min:" + str(climateMin))
+    print("climate max:" + str(climateMax))
     print("prevCrop :" + str(prevCropVal))
+    print("prevCrop Low:" + str(prevCropLow))
+    print("prevCrop Moderate:" + str(prevCropMod))
+    print("prevCrop High:" + str(prevCropHigh))
     print("meanprice :" + str(meanprice))
     print("stdprice :" + str(stdprice))
     print("meancost :" + str(meancost))
     print("stdcost :" + str(stdcost))
     print("SOM :" , SOM)
+    print("SOM Min:", SOMMin)
+    print("SOM Max:", SOMMax)
+
     print("CHU :", CHU)
+    print("CHU min:", CHUMin)
+    print("CHU max:", CHUMax)
 
     awdr= None
     chu=None
     som=None
     #split the categorical variables to take a concrete values, if other is psecified then take from other
     # textbox for respective attribute
-    if climate=='other':
-        awdr=float(request.POST['awdrother'])
-    else:
 
+    if clayRatio=='other':
+        clayRatio=float(request.POST['soilTypeValue'])
+    else:
+        clayRatio = float(clayRatio)
+
+    if climate=='other':
+
+        awdr=float(request.POST['climateValue'])
+
+    else:
 
         awdr = float(climate)
-    if CHU=='other':
-        chu= float(request.POST['chuother'])
-    else:
 
+    if CHU=='other':
+        chu= float(request.POST['chuValue'])
+    else:
 
         chu=float(CHU);
 
     if SOM=='other':
-        som = float(request.POST['somother'])
+        som = float(request.POST['somValue'])
     else:
 
         som = float(SOM);
@@ -279,10 +334,20 @@ def saveUserRequest(request):
     print("awdr :", awdr)
     print("som :", som)
 
-    tillTypelookup = int(dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal)[0].value)
-    clayratiolookup = float(dsslookup.objects.filter(fieldname='soil_type_clay_ratio', value=clayRatio)[0].value)
-    prevCropLookup = int(
-        dsslookup.objects.filter(fieldname='prev_crop_N_contrib', value=prevCropVal)[0].value)
+    if dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal).exists():
+        tillTypelookup = dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal)[0].key
+    else:
+        tillTypelookup = "Custom"
+
+    if dsslookup.objects.filter(fieldname='soil_type_clay_ratio', value=clayRatio).exists():
+        clayratiolookup = dsslookup.objects.filter(fieldname='soil_type_clay_ratio', value=clayRatio)[0].key
+    else:
+        clayratiolookup = "Custom"
+
+    if dsslookup.objects.filter(fieldname='prev_crop_N_contrib', value=prevCropVal).exists():
+        prevCropLookup = dsslookup.objects.filter(fieldname='prev_crop_N_contrib', value=prevCropVal)[0].key
+    else:
+        prevCropLookup = "Custom"
 
 
     #user = User.objects.get(username=request.session['username'])

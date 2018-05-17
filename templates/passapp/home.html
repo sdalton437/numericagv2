@@ -20,9 +20,11 @@
       <!--  javascript function to add option value as years to season variable-->
       <script type="text/javascript">
             $(document).ready(function(){
+
+                //Min Values
                 var minCHU = 550;
                 var maxCHU = 950;
-                var minTillType = +({{ minTillType }}).toFixed(2);
+                var minTillType = {{ minTillType }};
                 var maxTillType = {{ maxTillType }};
                 var minPrevCrop = {{ minPrevCrop }};
                 var maxPrevCrop = {{ maxPrevCrop }};
@@ -32,9 +34,21 @@
                 var maxSOM = 12;
                 var minClayRatio = 0.0323;
                 var maxClayRatio = 0.8824;
-                console.log("minTillType " + minTillType )
+
+                //User Parameters
+                var userTillage = {{ userTillage }};
+                var userPrevCrop = {{ userPrevCrop }};
+                var userClayRatio = {{ userClayRatio }};
+                var userSOM = {{ userSOM }};
+                var userCHU = {{ userCHU }};
+                var userAWDR = {{ userAWDR }};
+
+
+
              $("#chuMin").val({{ minCHU }});
              $("#chuMax").val({{ maxCHU }});
+
+
 
            //$("#tillTypeMin").val({{ minTillType }});
             //$("#tillTypeMax").val({{ maxTillType }});
@@ -431,7 +445,7 @@
                                                                   <label for="tillage">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" data-bind="value: maxTillTypek" id = "tillTypeMax" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" data-bind="value: maxTillTypek" id = "tillTypeMax" name="tillTypeNoTill" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -441,7 +455,7 @@
                                                                       <div class="col-md-8">
                                                               <label for="tillage"></label>
 
-                                                                <select class="form-control" id="tillTypeCat1" name="tillType" placeholder="Till Type" readonly>
+                                                                <select class="form-control" id="tillTypeCat1" placeholder="Till Type" readonly>
                                                                     <option value="0" selected="selected">Max Soil Distortion (Conventional)</option>
 
 
@@ -452,7 +466,7 @@
                                                                             <label for="tillage">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" value="" data-bind="value: minTillTypek" id = "tillTypeMin" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" value="" data-bind="value: minTillTypek" id = "tillTypeMin" name="tillTypeConvTill" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -467,7 +481,7 @@
                                                     </div>
 
 
-                                             <select class="form-control" data-bind="value: tillTypek" id="tillType" name="tillType" placeholder="Till Type">
+                                             <select class="form-control" data-bind="value: tillTypek" id="tillType" placeholder="Till Type">
 
                                                 <option value="" data-bind="value: maxTillTypek" selected="selected">Min Soil Distortion (No till)</option>
                                                  <option value="" data-bind="value: minTillTypek">Max Soil Distortion</option>
@@ -543,7 +557,7 @@
                                                                   <label for="previousCrop">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" data-bind="value: highPrevCrop" id = "prevCropMax" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" data-bind="value: highPrevCrop" id = "prevCropMax" name="prevCropHigh" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -566,7 +580,7 @@
                                                                                <label for="previousCrop">Relative Value (0-1)
 
                                                 </label>
-                                            <input type="number" data-bind="value: modPrevCrop" id = "prevCropMin" class="form-control" style="padding: 6px 4px;">
+                                            <input type="number" data-bind="value: modPrevCrop" id = "prevCropMin" name="prevCropMod" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -588,7 +602,7 @@
                                                                         <label for="previousCrop">Relative Value (0-1)
 
                                                 </label>
-                                            <input type="number" data-bind="value: lowPrevCrop" id = "prevCropValue1" class="form-control" style="padding: 6px 4px;">
+                                            <input type="number" data-bind="value: lowPrevCrop" id = "prevCropValue1" name="prevCropLow" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -714,6 +728,7 @@
                                                     <option value="0.3077">Silt loam</option>
                                                     <option value="0.8182">Silty clay</option>
                                                     <option value="0.7778">Silty clay loam</option>
+                                                    <option value="other">Other</option>
 
                                                 </select>
 
@@ -737,7 +752,7 @@
 
                                                               <label for="soilType">Max</label>
 
-                                                                <input class="form-control" id = "soilTypeMax"  type="number" value="5">
+                                                                <input step="0.0001" class="form-control" id = "soilTypeMax"  name="soilTypeMax" type="number" value="5">
                                                                       </div>
 
                                                                           <div class="col-md-4">
@@ -755,7 +770,7 @@
                                                                       <div class="col-md-8">
                                                               <label for="soilType">Min</label>
 
-                                                                <input class="form-control" id = "soilTypeMin" type="number" value="3">
+                                                                <input step="0.0001" class="form-control" id = "soilTypeMin" name="soilTypeMin" type="number" value="3">
                                                                           </div>
 
                                                                       <div class="col-md-4">
@@ -786,7 +801,7 @@
 
                                                 </div>
                                                 </div>
-                                                <input type="number" value="1" step="0.0001" id = "soilTypeValue" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" value="1" step="0.0001" id = "soilTypeValue" name="soilTypeValue" class="form-control" style="padding: 6px 4px;">
                                             </div>
                                             <!--
                                             <div class="col-md-5">
@@ -915,7 +930,7 @@
 
                                                               <label for="som">Max</label>
 
-                                                                <input class="form-control" id = "somMax"  type="number" value="5">
+                                                                <input step="0.01" class="form-control" id = "somMax"  name="somMax" type="number" value="5">
                                                                       </div>
 
                                                                           <div class="col-md-4">
@@ -934,7 +949,7 @@
                                                                       <div class="col-md-8">
                                                               <label for="som">Min</label>
 
-                                                                <input class="form-control" id = "somMin" type="number" value="3">
+                                                                <input step="0.01" for="som" class="form-control" id = "somMin" name="somMin" type="number" value="3">
                                                                           </div>
 
                                                                           <div class="col-md-4">
@@ -954,7 +969,7 @@
                                                         </div>
                                                       </div>
                                                     </div>
-                                                 <input class="form-control" id = "somValue" name="somValue" type="number">
+                                                 <input step="0.01" class="form-control" id = "somValue" name="somValue" type="number">
 
 
 
@@ -1034,7 +1049,7 @@
 
                                                               <label for="climate">Max</label>
 
-                                                                <input class="form-control" id = "climateMax"  type="number" value="5">
+                                                                <input step="0.01" class="form-control" id = "climateMax"  name="climateMax" type="number" value="5">
                                                                       </div>
 
                                                                           <div class="col-md-4">
@@ -1051,7 +1066,7 @@
                                                                       <div class="col-md-8">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "climateMin" type="number" value="3">
+                                                                <input step="0.01" class="form-control" id = "climateMin" name="climateMin" type="number" value="3">
                                                                           </div>
 
                                                                           <div class="col-md-4">
@@ -1106,7 +1121,7 @@
                                                 </a>
                                             </label>
 
-                                            <select class="form-control" id="chu" name="chu" >
+                                            <select for="local climate" class="form-control" id="chu" name="chu" >
                                                  <option value="550">Cold </option>
                                                 <option value="650">Warm </option>
                                                 <option selected="selected" value="750">Medium Conditions</option>
@@ -1145,14 +1160,14 @@
 
                                                               <label for="chu">Max</label>
 
-                                                                <input class="form-control" id = "chuMax"  type="number" value="5">
+                                                                <input for="local climate" class="form-control" id = "chuMax"  name="chuMax" type="number" value="5">
                                                                       </div>
 
                                                                           <div class="col-md-4">
                                                                   <label for="local climate">CHU, °C
 
                                                 </label>
-                                                <input type="number" id = "chuValue1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                <input type="number" for="local climate" id = "chuValue1" class="form-control" style="padding: 6px 4px;" readonly>
                                                                               </div>
                                                                       </div>
 
@@ -1162,7 +1177,7 @@
                                                                       <div class="col-md-8">
                                                               <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "chuMin" type="number" value = "3">
+                                                                <input class="form-control" id = "chuMin" name="chuMin" type="number" value = "3">
                                                                           </div>
 
                                                                           <div class="col-md-4">
@@ -1197,7 +1212,7 @@
 
 
                                                 </label>
-                                                <input type="number" value="" id = "chuScale" class="form-control" style="padding: 6px 4px;" readonly>
+                                                <input type="number"for="local climate"  value="" id = "chuScale" class="form-control" style="padding: 6px 4px;" readonly>
 
                                         </div>
                                     </div>
@@ -1248,11 +1263,6 @@
 
                                    };
 
-                                   var UpdateValueMin = function(){
-                                       var min = document.getElementById("tillTypeMin");
-
-
-                                   }
 
                                    var SetCat = function(item){
                                       return function(){
@@ -1281,9 +1291,24 @@
 
                                    })(i);
                                }
+                               $( window ).on( "load", function() {
 
+                                   $("#soilTypeValue").val({{ userClayRatio }});
+                                   $("#soilType").val({{ userClayRatio }});
+                                   $("#somValue").val({{ userSOM }});
+                                   $("#som").val({{ userSOM }});
+                                   $("#chuValue").val({{ userCHU }});
+                                   $("#chu").val({{ userCHU }});
+                                   $("#climateValue").val({{ userAWDR }});
+                                   $("#climate").val({{ userAWDR }});
 
+                               });
+                               for (i = 0; i<categories.length;i++) {
+                                   (function(i) {
+                                       $(window).on("load",ScaleCalc(categories[i]));
 
+                                       })(i);
+                                   }
 
 
 
