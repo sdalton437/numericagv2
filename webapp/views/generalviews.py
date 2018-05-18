@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect,get_object_or_404,render_to_respon
 
 from statistics import mean, stdev,variance
 
-from ..models import UserRquestSite,UserTransaction,PlotYield,SiteField,dsslookup
+from ..models import UserRquestSite,UserTransaction,PlotYield,SiteField,dsslookup,UserSettings
 #from django.db.models import Q
 
 import csv
@@ -170,25 +170,28 @@ def index(request):
     maxTillType = dbTrials.aggregate(Max('TillType_int'))
 
     #Find parameters of users' last session
-    '''
+
     if UserRquestSite.objects.filter(user_id=request.session['userid']).exists():
         userData = UserRquestSite.objects.filter(user_id=request.session['userid']).last()
-        userTillage = userData.tilltype
-        userPrevCrop = userData.prev_crop
-        userClayRatio = userData.soiltype
+        #userTillage = userData.tilltype
+        #userPrevCrop = userData.prev_crop
+        #userClayRatio = userData.soiltype
         userSOM = userData.SOM
         userCHU = userData.CHU
         userAWDR = userData.awdr
 
     else:
-        '''
-    userTillage = 1
-    userPrevCrop = 0.5
-    userClayRatio = 0.6667
-    userSOM = 5
-    userCHU = 750
-    userAWDR = 75
 
+
+        userPrevCrop = 0.5
+
+        userSOM = 5
+        userCHU = 750
+        userAWDR = 75
+
+    userTillage = 1
+    userClayRatio = 0.6667
+    userPrevCrop = 0.5
 
     print('minCHU', minCHU)
     print('maxCHU', maxCHU)
@@ -355,9 +358,26 @@ def saveUserRequest(request):
 
     #user = User.objects.get(username=request.session['username'])
     #Store user request in user trans request
-    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup,soiltype_min=clayRatioMin, tilltype=tillTypelookup,
-                        latitude=latitude,longitude=longitude,awdr=awdr,prev_crop=prevCropLookup,CHU=chu,SOM=som,price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
+    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup, tilltype=tillTypelookup,
+                         latitude=latitude,longitude=longitude,awdr=awdr, prev_crop=prevCropLookup,CHU=chu, SOM=som,price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
     ur.save()
+    #print(UserSettings.objects.filter(user = request.user).exists())
+    '''if(UserSettings.objects.filter(user = request.user).exists()):
+
+        urUser =  UserSettings.objects.filter(user=request.user)[]
+        print("reached")
+        UserSettings.objects.filter(user=request.user).tilltype_Conv = tillTypeConvTill
+        UserSettings.objects.filter(user=request.user).tilltype_NoTill = tillTypeNoTill
+        UserSettings.objects.filter(user=request.user).prev_crop_low = prevCropLow
+        UserSettings.objects.filter(user=request.user).prev_crop_mod = prevCropMod
+        UserSettings.objects.filter(user=request.user).prev_crop_high = prevCropHigh
+
+    else:
+        urUser = UserSettings(user = request.user, tilltype_Conv= tillTypeConvTill, tilltype_NoTill=tillTypeNoTill, prev_crop_low= prevCropLow, prev_crop_mod= prevCropMod, prev_crop_high= prevCropHigh)
+    urUser.save()
+    '''
+
+
     print('user site request has been saved successfully, id', ur.id)
 
     #create entry in user transaction model, to proces request
