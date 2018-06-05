@@ -36,8 +36,7 @@
                 var maxClayRatio = 0.8824;
 
                 //User Parameters
-                var userTillage = {{ userTillage }};
-                var userPrevCrop = {{ userPrevCrop }};
+
                 var userClayRatio = {{ userClayRatio }};
                 var userSOM = {{ userSOM }};
                 var userCHU = {{ userCHU }};
@@ -202,16 +201,16 @@
                 var maxCHU = ko.observable(950);
 
                 this.tillTypek = ko.observable(0);
-                this.minTillTypek = ko.observable({{ maxTillType }});
+                this.minTillTypek = ko.observable({{ maxTillType}});
                 this.maxTillTypek = ko.observable({{ minTillType }});
 
 
 
                 this.prevCropSelected = ko.observable(0.5);
 
-                this.lowPrevCrop = ko.observable(0);
+                this.lowPrevCrop = ko.observable( 0 );
                 this.modPrevCrop = ko.observable(50);
-                this.highPrevCrop = ko.observable(100);
+                this.highPrevCrop = ko.observable( 100 );
 
 
 
@@ -447,7 +446,7 @@
                                                                   <label for="tillage">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" data-bind="value: maxTillTypek" id = "tillTypeMax" name="tillTypeNoTill" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" min="0" max="1" step="0.01" onkeyup="checkRelativeValue(this)" data-bind="value: maxTillTypek" id = "tillTypeMax" name="tillTypeNoTill" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -468,7 +467,7 @@
                                                                             <label for="tillage">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" value="" data-bind="value: minTillTypek" id = "tillTypeMin" name="tillTypeConvTill" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" min="0" max="1" step="0.01" value="" data-bind="value: minTillTypek" id = "tillTypeMin" name="tillTypeConvTill" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -1222,118 +1221,7 @@
                   </div>
                             </div>
 
-                           <script>
 
-                               var categories = ["soilType","som","climate","chu"];
-
-                                   var ScaleCalc = function (item) {
-                                    return function(){
-                                        if(document.getElementById(item + "Value")) {
-                                            var val = document.getElementById(item + "Value").value;
-
-                                        }
-                                        else{
-                                            var val = document.getElementById(item).value;
-
-                                        }
-                                       var min = document.getElementById(item + "Min").value;
-                                       console.log(min);
-                                       var max = document.getElementById(item + "Max").value;
-
-                                       var scale = +(((val - min) / (max - min)).toFixed(2));
-
-                                       var scaleElem = document.getElementById(item + "Scale");
-                                       if(document.getElementById(item + "Scale1")) {
-                                           var scaleElem1 = document.getElementById(item + "Scale1");
-                                           scaleElem1.value = scale;
-                                       }
-                                       scaleElem.value = scale;
-
-
-                                     }
-                                   };
-                                   var SetValue = function (item) {
-                                    return function(){
-
-                                      var cat = document.getElementById(item);
-                                      var value = document.getElementById(item + "Value");
-                                      var value1 = document.getElementById(item + "Value1");
-                                      value.value = cat.value;
-                                      value1.value = cat.value;
-
-                                    }
-
-                                   };
-
-
-                                   var SetCat = function(item){
-                                      return function(){
-                                        var cat = document.getElementById(item);
-                                        var value = document.getElementById(item + "Value");
-                                        var value1 = document.getElementById(item + "Value1");
-                                        value1.value = value.value;
-                                        for(i=0;i<cat.length;i++){
-                                          if(cat.options[i].value == value.value){
-                                              cat.value = cat.options[i].value;
-                                              break;
-                                          }
-                                          else{
-                                              cat.value = "other"
-                                          }
-                                        }
-                                      }
-                                   };
-
-
-                               for (i = 0; i<categories.length;i++) {
-                                   (function(i) {
-
-
-                                       if(document.getElementById(categories[i] + "Value")) {
-                                           $("#" + categories[i]).change(SetValue(categories[i]));
-                                           $(document).ready(SetValue(categories[i]));
-                                       }
-                                       $("#" + categories[i]).change(ScaleCalc(categories[i]));
-                                       $("#" + categories[i] + "Value").change(SetCat(categories[i]));
-                                       $("#" + categories[i] + "Value").change(ScaleCalc(categories[i]));
-                                       $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
-                                       $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
-                                       $(document).ready(ScaleCalc(categories[i]));
-
-                                   })(i);
-                               }
-                               $( window ).on( "load", function() {
-
-                                   $("#soilTypeValue").val({{ userClayRatio }});
-                                   $("#soilType").val({{ userClayRatio }});
-                                   $("#somValue").val({{ userSOM }});
-                                   $("#som").val({{ userSOM }});
-                                   $("#chuValue").val({{ userCHU }});
-                                   $("#chu").val({{ userCHU }});
-                                   $("#climateValue").val({{ userAWDR }});
-                                   $("#climate").val({{ userAWDR }});
-
-                               });
-                               for (i = 0; i<categories.length;i++) {
-                                   (function(i) {
-                                       $(window).on("load",ScaleCalc(categories[i]));
-
-                                       })(i);
-                                   (function(i) {
-                                       $(window).on("load",SetCat(categories[i]));
-
-                                       })(i);
-
-                               }
-
-
-
-
-
-
-
-
-                           </script>
 
 
 
@@ -1404,6 +1292,35 @@
 
                         </div>
                          </fieldset>
+
+                           <fieldset class="scheduler-border">
+
+                            <legend class="scheduler-border"> Q Settings</legend>
+                                <div class="row">
+                                    <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label> Acceptability </label>
+                                            <select class="form-control" id="q" name="q">
+
+                                                <option value="1">Strong Acceptability</option>
+                                                <option value="2" selected="selected">Medium Acceptibilty</option>
+                                                <option value="5">Conservative Acceptability</option>
+                                                <option value="other">Other</option>
+
+                                             </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>Value</label>
+                                        <input value="" type="number" class="form-control" id="qValue" name="qValue">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>&zwnj; </label>
+                                       <input id="resetDefaults" type="button" value="Reset All" class="btn btn-md btn-primary btn-block"/>
+                                    </div>
+                                </div>
+                                </div>
+                           </fieldset>
+
                             <br>
                 <button class="btn btn-md btn-primary btn-block" type="submit">Submit</button>
 
@@ -1419,33 +1336,183 @@
     {% include "passapp/footer.html" %}
   </body>
   <script>
+        var checkRelativeValue = function(dom,lower,upper){
+            var idval = dom.id;
+            var $id = $('#' + dom.id),
+            $errorMsg = $("<span class='error' style='color:red;'>Value must be between 0 and 1</span>");
+            $errorMsg.id = idval + "span"
+            console.log($id.val());
+            if($id.val() == "" || $id.val() < lower || $id.val() > upper){
+                if($id.data("error")){
+
+                }
+                else{
+                    $id.data("error", $errorMsg.clone().insertAfter($id));
+                }
+
+            }
+            else{
+                if ($id.data("error")) {
+                    $id.data("error").remove();
+                    $id.removeData("error");
+                }
+            }
+
+
+
+        };
+                               var categories = ["soilType","som","climate","chu","q"];
+
+                                   var ScaleCalc = function (item) {
+                                    return function(){
+                                        if(document.getElementById(item + "Value")) {
+                                            var val = document.getElementById(item + "Value").value;
+
+                                        }
+                                        else{
+                                            console.log(item);
+                                            var val = document.getElementById(item).value;
+
+                                        }
+                                       var min = document.getElementById(item + "Min").value;
+                                       console.log(min);
+                                       var max = document.getElementById(item + "Max").value;
+
+                                       var scale = +(((val - min) / (max - min)).toFixed(2));
+
+                                       var scaleElem = document.getElementById(item + "Scale");
+                                       if(document.getElementById(item + "Scale1")) {
+                                           var scaleElem1 = document.getElementById(item + "Scale1");
+                                           scaleElem1.value = scale;
+                                       }
+                                       scaleElem.value = scale;
+
+
+                                     }
+                                   };
+                                   var SetValue = function (item) {
+                                    return function(){
+
+                                      var cat = document.getElementById(item);
+                                      var value = document.getElementById(item + "Value");
+
+                                      value.value = cat.value;
+                                      if(item!="q") {
+                                          var value1 = document.getElementById(item + "Value1");
+                                          value1.value = cat.value;
+                                      }
+
+                                    }
+
+                                   };
+
+
+                                   var SetCat = function(item){
+                                      return function(){
+                                        var cat = document.getElementById(item);
+                                        var value = document.getElementById(item + "Value");
+                                        console.log("q :" + item);
+                                        if(item!="q") {
+                                            var value1 = document.getElementById(item + "Value1");
+                                            value1.value = value.value;
+                                        }
+
+                                        for(i=0;i<cat.length;i++){
+                                          if(cat.options[i].value == value.value){
+                                              cat.value = cat.options[i].value;
+                                              break;
+                                          }
+                                          else{
+                                              cat.value = "other"
+                                          }
+                                        }
+                                      }
+                                   };
+
+
+                               for (i = 0; i<categories.length;i++) {
+                                   (function(i) {
+
+                                        console.log($("#" + categories[i]).val());
+                                       if(document.getElementById(categories[i] + "Value")) {
+                                           $("#" + categories[i]).change(SetValue(categories[i]));
+
+                                           $(document).ready(SetValue(categories[i]));
+                                       }
+
+                                       if(categories[i] == "q"){
+                                           $("#" + categories[i] + "Value").change(SetCat(categories[i]));
+                                           //$("#" + categories[i] + "Value").on("input propertychange",function(){
+                                             //   SetCat(categories[i]);
+                                            //});
+                                       }
+                                       else {
+                                           $("#" + categories[i]).change(ScaleCalc(categories[i]));
+                                           $("#" + categories[i] + "Value").change(SetCat(categories[i]));
+                                           $("#" + categories[i] + "Value").change(ScaleCalc(categories[i]));
+                                           $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
+                                           $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
+                                           $(document).ready(ScaleCalc(categories[i]));
+                                       }
+
+                                   })(i);
+                               }
+                               $( window ).on( "load", function() {
+
+                                   $("#soilTypeValue").val({{ userClayRatio }});
+                                   $("#soilType").val({{ userClayRatio }});
+                                   $("#somValue").val({{ userSOM }});
+                                   $("#som").val({{ userSOM }});
+                                   $("#chuValue").val({{ userCHU }});
+                                   $("#chu").val({{ userCHU }});
+                                   $("#climateValue").val({{ userAWDR }});
+                                   $("#climate").val({{ userAWDR }});
+                                   console.log({{ userCHU }});
+
+                               });
+                               for (i = 0; i<categories.length;i++) {
+                                   if(categories[i]!="q") {
+                                       (function (i) {
+                                           $(window).on("load", ScaleCalc(categories[i]));
+
+                                       })(i);
+                                   }
+                                   (function(i) {
+                                       $(window).on("load",SetCat(categories[i]));
+
+                                       })(i);
+
+                               }
+
+
+
+
+
+
+
+
+                           </script>
+
+  <script>
       window.vm = new ViewModel()
       ko.applyBindings(vm);
 
-      $("#tillTypeMin").change(function () {
-          var id = $("#tillType option:selected").attr('id');
+      var refreshTill = function(){
+          return function(){
+              var id = $("#tillType option:selected").attr('id');
                 if(id == 'tillMinSoil'){
                    window.vm.tillTypek($('#tillTypeMax').val());
                 }
                 else{
                     window.vm.tillTypek($('#tillTypeMin').val());
                 }
-      });
-      $("#tillTypeMax").change(function () {
-          var id = $("#tillType option:selected").attr('id');
-                if(id == 'tillMinSoil'){
-                    window.vm.tillTypek($('#tillTypeMax').val());
+          }
+      };
 
-                }
-                else{
-                    window.vm.tillTypek($('#tillTypeMin').val());
-                }
-
-      });
-
-      $("#prevCropLow").change(function () {
-          var id = $("#prevCrop option:selected").attr('id');
-          console.log(id);
+      var refreshCrops = function(){
+          return function(){
+            var id = $("#prevCrop option:selected").attr('id');
+            console.log(id);
                 if(id == 'prevCropLowVal'){
                    window.vm.prevCropSelected($('#prevCropLow').val());
                 }
@@ -1455,35 +1522,65 @@
                 else{
                     window.vm.prevCropSelected($('#prevCropHigh').val());
                 }
-      });
-      $("#prevCropMod").change(function () {
-          var id = $("#prevCrop option:selected").attr('id');
-          console.log(id);
-                if(id == 'prevCropLowVal'){
-                   window.vm.prevCropSelected($('#prevCropLow').val());
-                }
-                if(id == 'prevCropModVal'){
-                   window.vm.prevCropSelected($('#prevCropMod').val());
-                }
-                else{
-                    window.vm.prevCropSelected($('#prevCropHigh').val());
-                }
+          }
+      };
 
-      });
+      $("#tillTypeMin").change(refreshTill()
+      );
+      $("#tillTypeMax").change(refreshTill());
 
-      $("#prevCropHigh").change(function () {
-          var id = $("#prevCrop option:selected").attr('id');
-          console.log(id);
-                if(id == 'prevCropLowVal'){
-                   window.vm.prevCropSelected($('#prevCropLow').val());
-                }
-                if(id == 'prevCropModVal'){
-                   window.vm.prevCropSelected($('#prevCropMod').val());
-                }
-                else{
-                    window.vm.prevCropSelected($('#prevCropHigh').val());
-                }
+      $("#prevCropLow").change(refreshCrops());
+      $("#prevCropMod").change(refreshCrops());
 
+      $("#prevCropHigh").change(refreshCrops());
+
+      function reset(){
+          console.log("clicked");
+
+          $("#som").val("5");
+
+          $("#chu").val("750");
+
+          $("#climate").val("75");
+
+          $("#soilType").val(0.6667);
+          $("#q").val("2");
+
+          $("#climateMin").val(15);
+          $("#climateMax").val({{ maxAWDR }});
+
+
+          $("#somMin").val(0);
+          $("#somMax").val({{ maxSOM }});
+
+          $("#soilTypeMin").val({{ minClayRatio }});
+          $("#soilTypeMax").val({{ maxClayRAtio }});
+
+          $("#chuMin").val({{ minCHU }});
+          $("#chuMax").val({{ maxCHU }});
+
+
+          for (i = 0; i<categories.length;i++) {
+              if($("#" + categories[i] + "Scale").length){
+                  ScaleCalc(categories[i]).call();
+                  console.log("has scale");
+              }
+              if($("#" + categories[i] + "Value").length){
+                  SetValue(categories[i]).call();
+                  console.log("has Value");
+              }
+          }
+          window.vm.minTillTypek(1);
+          window.vm.maxTillTypek(0);
+          window.vm.lowPrevCrop(0);
+          window.vm.modPrevCrop(50);
+          window.vm.highPrevCrop(100);
+          refreshTill().call();
+          refreshCrops().call();
+
+      }
+      $("#resetDefaults").click(function(){
+          reset();
       });
 
   </script>

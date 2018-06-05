@@ -80,17 +80,16 @@ WSGI_APPLICATION = 'NumericAgWebAppV2.wsgi.application'
 
 DATABASES = {
     'default': {
-          'HOST': 'web546.webfaction.com',
+          'HOST': 'localhost',
           'ENGINE': 'django.db.backends.mysql',
-          'NAME': 'agridss',
-          'USER': 'passapp',
-          'PASSWORD': 'passapp',
+          'NAME': 'numericagv1',
+          'USER': 'root',
+          'PASSWORD': 'QwEr43215Y',
           'PORT': '3306',
           'CONN_MAX_AGE': None,
           'sql_mode':'STRICT_TRANS_TABLES',
     }
   }
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 

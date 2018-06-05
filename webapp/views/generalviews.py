@@ -173,25 +173,55 @@ def index(request):
 
     if UserRquestSite.objects.filter(user_id=request.session['userid']).exists():
         userData = UserRquestSite.objects.filter(user_id=request.session['userid']).last()
-        #userTillage = userData.tilltype
-        #userPrevCrop = userData.prev_crop
-        #userClayRatio = userData.soiltype
+        userTillage = userData.tilltype
+        userTillageConv = userData.tilltype_Conv
+        userTillageNoTill = userData.tilltype_NoTill
+
+
+        userPrevCrop = 50
+        userPrevCropLow = userData.prev_crop_low
+        userPrevCropMod = userData.prev_crop_mod
+        userPrevCropHigh = userData.prev_crop_high
+
+        userClayRatio = dsslookup.objects.filter(fieldname='soil_type_clay_ratio', key=userData.soiltype)[0].value
+        userClayRatioMax = userData.soiltype_max
+        userClayRatioMin = userData.soiltype_min
         userSOM = userData.SOM
+        userSOM_MIN = userData.SOM_min
+        userSOM_MAX = userData.SOM_max
         userCHU = userData.CHU
+        userCHU_MAX = userData.CHU_max
+        userCHU_MIN = userData.CHU_min
         userAWDR = userData.awdr
+        userAWDR_MAX = userData.awdr_max
+        userAWDR_MIN = userData.awdr_min
 
     else:
 
+        userTillage = "Conventional"
+        userTillageConv = 1
+        userTillageNoTill = 0
 
-        userPrevCrop = 0.5
+        userPrevCrop = 50
+        userPrevCropLow = 0
+        userPrevCropMod = 50
+        userPrevCropHigh = 100
 
+        userClayRatio = "Clay"
+        userClayRatioMax = minClayRatio
+        userClayRatioMin = maxClayRAtio
         userSOM = 5
+        userSOM_MIN = minSOM
+        userSOM_MAX = maxSOM
         userCHU = 750
+        userCHU_MAX = maxCHU
+        userCHU_MIN = minCHU
         userAWDR = 75
+        userAWDR_MAX = maxAWDR
+        userAWDR_MIN = minAWDR
 
-    userTillage = 1
-    userClayRatio = 0.6667
-    userPrevCrop = 0.5
+
+
 
     print('minCHU', minCHU)
     print('maxCHU', maxCHU)
@@ -206,6 +236,7 @@ def index(request):
     print('minTillType', minTillType)
     print('maxTillType', maxTillType)
     print('userSOM', userSOM)
+    print('userCHU', userCHU)
 
 
     # upref= UserInputPreference(user=request.user, parameter='CHU',min=minCHU,max=maxCHU,numeric=None)
@@ -225,8 +256,11 @@ def index(request):
                'minSOM': minSOM['SOM__min'], 'maxSOM': maxSOM['SOM__max'], 'minAWDR': minAWDR['AWDR__min'],
                'maxAWDR': maxAWDR['AWDR__max'],
                'maxPrevCrop': maxPrevCrop['PrevContribN_int__max'], 'minPrevCrop': minPrevCrop['PrevContribN_int__min'],
-               'minTillType': minTillType['TillType_int__min'], 'maxTillType': maxTillType['TillType_int__max'],'userTillage': userTillage,'userPrevCrop': userPrevCrop,
-               'userClayRatio': userClayRatio, 'userSOM': userSOM, 'userCHU': userCHU,'userAWDR': userAWDR,}
+               'minTillType': minTillType['TillType_int__min'], 'maxTillType': maxTillType['TillType_int__max'],'userTillage': userTillageConv,
+               'userTillageConv': userTillageConv,'userTillageNoTill': userTillageNoTill,'userPrevCrop': userPrevCrop,'userPrevCrop': userPrevCrop,
+               'userPrevCropLow': userPrevCropLow,'userPrevCropMod': userPrevCropMod,'userPrevCropHigh': userPrevCropHigh,
+               'userClayRatio': userClayRatio, 'userClayRatioMin': userClayRatioMin,'userClayRatioMax': userClayRatioMax,'userSOM': userSOM, 'userSOM_MIN':userSOM_MIN, 'userSOM_MAX':userSOM_MAX, 'userCHU': userCHU,
+               'userCHU_MIN': userCHU_MIN,'userCHU_MAX': userCHU_MAX,'userAWDR': userAWDR, 'userAWDR_MIN': userAWDR_MIN, 'userAWDR_MAX': userAWDR_MAX}
 
     print('End , generalviews, index()')
 
@@ -358,8 +392,9 @@ def saveUserRequest(request):
 
     #user = User.objects.get(username=request.session['username'])
     #Store user request in user trans request
-    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup, tilltype=tillTypelookup,
-                         latitude=latitude,longitude=longitude,awdr=awdr, prev_crop=prevCropLookup,CHU=chu, SOM=som,price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
+    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup,soiltype_min=clayRatioMin, soiltype_max = clayRatioMax, tilltype=tillTypelookup, tilltype_val=tillTypeVal, tilltype_NoTill=tillTypeNoTill, tilltype_Conv=tillTypeConvTill,
+                         latitude=latitude,longitude=longitude,awdr=awdr,awdr_min = climateMin, awdr_max = climateMax, prev_crop=prevCropLookup,prev_crop_low=prevCropLow, prev_crop_mod=prevCropMod, prev_crop_high=prevCropHigh,
+                        CHU=chu,CHU_min = CHUMin, CHU_max = CHUMax, SOM=som,SOM_min = SOMMin, SOM_max = SOMMax, price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
     ur.save()
     #print(UserSettings.objects.filter(user = request.user).exists())
     '''if(UserSettings.objects.filter(user = request.user).exists()):
