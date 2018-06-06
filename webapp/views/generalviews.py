@@ -171,30 +171,40 @@ def index(request):
 
     #Find parameters of users' last session
 
-    if UserRquestSite.objects.filter(user_id=request.session['userid']).exists():
+
+    if UserRquestSite.objects.filter(user=request.user).exists():
         userData = UserRquestSite.objects.filter(user_id=request.session['userid']).last()
-        userTillage = userData.tilltype
-        userTillageConv = userData.tilltype_Conv
-        userTillageNoTill = userData.tilltype_NoTill
+        userTillage = UserInputPreference.objects.filter(user=request.user, parameter='tillType')[0].numeric
+
+        userTillageConv = UserInputPreference.objects.filter(user=request.user, parameter='tillTypeConvTill')[0].numeric
+        userTillageNoTill = UserInputPreference.objects.filter(user=request.user, parameter='tillTypeNoTill')[0].numeric
 
 
-        userPrevCrop = 50
-        userPrevCropLow = userData.prev_crop_low
-        userPrevCropMod = userData.prev_crop_mod
-        userPrevCropHigh = userData.prev_crop_high
+        userPrevCrop = UserInputPreference.objects.filter(user=request.user, parameter='prevCrop')[0].numeric
+        userPrevCropLow = UserInputPreference.objects.filter(user=request.user, parameter='prevCropLow')[0].numeric
+        userPrevCropMod = UserInputPreference.objects.filter(user=request.user, parameter='prevCropMod')[0].numeric
+        userPrevCropHigh = UserInputPreference.objects.filter(user=request.user, parameter='prevCropHigh')[0].numeric
 
-        userClayRatio = dsslookup.objects.filter(fieldname='soil_type_clay_ratio', key=userData.soiltype)[0].value
-        userClayRatioMax = userData.soiltype_max
-        userClayRatioMin = userData.soiltype_min
-        userSOM = userData.SOM
-        userSOM_MIN = userData.SOM_min
-        userSOM_MAX = userData.SOM_max
-        userCHU = userData.CHU
-        userCHU_MAX = userData.CHU_max
-        userCHU_MIN = userData.CHU_min
-        userAWDR = userData.awdr
-        userAWDR_MAX = userData.awdr_max
-        userAWDR_MIN = userData.awdr_min
+        clayRatioEntry = UserInputPreference.objects.filter(user=request.user, parameter='clayRatio')[0]
+        userClayRatio = clayRatioEntry.numeric
+        userClayRatioMax = clayRatioEntry.max
+        userClayRatioMin = clayRatioEntry.min
+
+        somEntry = UserInputPreference.objects.filter(user=request.user, parameter='SOM')[0]
+        userSOM = somEntry.numeric
+        userSOM_MIN = somEntry.min
+        userSOM_MAX = somEntry.max
+
+        chuEntry = UserInputPreference.objects.filter(user=request.user, parameter='CHU')[0]
+        userCHU = chuEntry.numeric
+        userCHU_MAX = chuEntry.max
+        userCHU_MIN = chuEntry.min
+
+        awdrEntry = UserInputPreference.objects.filter(user=request.user, parameter='awdr')[0]
+        userAWDR = awdrEntry.numeric
+        userAWDR_MAX = awdrEntry.max
+        userAWDR_MIN = awdrEntry.min
+        userQ = UserInputPreference.objects.filter(user=request.user, parameter='q_val')[0].numeric
 
     else:
 
@@ -219,6 +229,7 @@ def index(request):
         userAWDR = 75
         userAWDR_MAX = maxAWDR
         userAWDR_MIN = minAWDR
+        userQ = 2
 
 
 
@@ -257,10 +268,10 @@ def index(request):
                'maxAWDR': maxAWDR['AWDR__max'],
                'maxPrevCrop': maxPrevCrop['PrevContribN_int__max'], 'minPrevCrop': minPrevCrop['PrevContribN_int__min'],
                'minTillType': minTillType['TillType_int__min'], 'maxTillType': maxTillType['TillType_int__max'],'userTillage': userTillageConv,
-               'userTillageConv': userTillageConv,'userTillageNoTill': userTillageNoTill,'userPrevCrop': userPrevCrop,'userPrevCrop': userPrevCrop,
+               'userTillageConv': userTillageConv,'userTillageNoTill': userTillageNoTill,'userPrevCrop': userPrevCrop,
                'userPrevCropLow': userPrevCropLow,'userPrevCropMod': userPrevCropMod,'userPrevCropHigh': userPrevCropHigh,
                'userClayRatio': userClayRatio, 'userClayRatioMin': userClayRatioMin,'userClayRatioMax': userClayRatioMax,'userSOM': userSOM, 'userSOM_MIN':userSOM_MIN, 'userSOM_MAX':userSOM_MAX, 'userCHU': userCHU,
-               'userCHU_MIN': userCHU_MIN,'userCHU_MAX': userCHU_MAX,'userAWDR': userAWDR, 'userAWDR_MIN': userAWDR_MIN, 'userAWDR_MAX': userAWDR_MAX}
+               'userCHU_MIN': userCHU_MIN,'userCHU_MAX': userCHU_MAX,'userAWDR': userAWDR, 'userAWDR_MIN': userAWDR_MIN, 'userAWDR_MAX': userAWDR_MAX, 'userQ':userQ}
 
     print('End , generalviews, index()')
 
@@ -300,6 +311,7 @@ def saveUserRequest(request):
     CHU= request.POST.get('chu', '')
     CHUMin = request.POST.get('chuMin', '')
     CHUMax = request.POST.get('chuMax', '')
+    q = request.POST.get('qVal', '')
     print((request.POST.get('meanprice', '').strip()))
     meanprice = float(request.POST.get('meanprice', '').strip())
     stdprice = float(request.POST.get('stdprice', '').strip())
@@ -376,6 +388,7 @@ def saveUserRequest(request):
 
     if dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal).exists():
         tillTypelookup = dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal)[0].key
+        print("till type false val " + tillTypelookup)
     else:
         tillTypelookup = "Custom"
 
@@ -441,6 +454,9 @@ def saveUserRequest(request):
     userSettings.append(
         {'name': 'prevCropHigh', 'value': prevCropHigh}
     )
+    userSettings.append(
+        {'name': 'q_val', 'value': q}
+    )
 
     for x in userSettings:
         if(UserInputPreference.objects.filter(user=request.user,parameter=x['name']).count() != 0):
@@ -464,31 +480,12 @@ def saveUserRequest(request):
     # user = User.objects.get(username=request.session['username'])
     # Store user request in user trans request
     ur = UserRquestSite(user=request.user, fertilizer=fertilizer, current_crop=currentcrop, season=season,
-                        soiltype=clayratiolookup, soiltype_min=clayRatioMin, soiltype_max=clayRatioMax,
-                        tilltype=tillTypelookup, tilltype_val=tillTypeVal, tilltype_NoTill=tillTypeNoTill,
-                        tilltype_Conv=tillTypeConvTill,
+                        soiltype=clayratiolookup, soiltype_val=clayRatio,soiltype_min=clayRatioMin, soiltype_max=clayRatioMax,
+                        tilltype=tillTypelookup, tilltype_val=tillTypeVal,
                         latitude=latitude, longitude=longitude, awdr=awdr, awdr_min=climateMin, awdr_max=climateMax,
-                        prev_crop=prevCropLookup, prev_crop_low=prevCropLow, prev_crop_mod=prevCropMod,
-                        prev_crop_high=prevCropHigh,
-                        CHU=chu, CHU_min=CHUMin, CHU_max=CHUMax, SOM=som, SOM_min=SOMMin, SOM_max=SOMMax,
-                        price_mean=meanprice, price_std=stdprice, costmean=meancost, coststd=stdcost)
+                        prev_crop=prevCropLookup,prev_crop_val=prevCropVal, CHU=chu, CHU_min=CHUMin, CHU_max=CHUMax, SOM=som, SOM_min=SOMMin, SOM_max=SOMMax,
+                        price_mean=meanprice, price_std=stdprice, costmean=meancost, coststd=stdcost,q_val = q)
     ur.save()
-
-    '''if(UserSettings.objects.filter(user = request.user).exists()):
-
-        urUser =  UserSettings.objects.filter(user=request.user)[]
-        print("reached")
-        UserSettings.objects.filter(user=request.user).tilltype_Conv = tillTypeConvTill
-        UserSettings.objects.filter(user=request.user).tilltype_NoTill = tillTypeNoTill
-        UserSettings.objects.filter(user=request.user).prev_crop_low = prevCropLow
-        UserSettings.objects.filter(user=request.user).prev_crop_mod = prevCropMod
-        UserSettings.objects.filter(user=request.user).prev_crop_high = prevCropHigh
-
-    else:
-        urUser = UserSettings(user = request.user, tilltype_Conv= tillTypeConvTill, tilltype_NoTill=tillTypeNoTill, prev_crop_low= prevCropLow, prev_crop_mod= prevCropMod, prev_crop_high= prevCropHigh)
-    urUser.save()
-    '''
-
 
     print('user site request has been saved successfully, id', ur.id)
 

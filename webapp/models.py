@@ -56,22 +56,18 @@ class UserRquestSite(models.Model):
     current_crop= models.CharField(max_length=100)
     season =    models.IntegerField()
     soiltype=   models.CharField(max_length=100)
+    soiltype_val = models.FloatField(null=True)
     soiltype_min = models.CharField(max_length=100)
     soiltype_max = models.CharField(max_length=100)
     tilltype=   models.CharField(max_length=100)
-    tilltype_val = models.CharField(max_length=100)
-    tilltype_Conv = models.FloatField(null=True)
-    tilltype_NoTill = models.FloatField(null=True)
-
+    tilltype_val = models.FloatField(null=True)
     latitude=   models.CharField(max_length=100)
     longitude=  models.CharField(max_length=100)
     awdr = models.FloatField(null=True)
     awdr_min = models.FloatField(null=True)
     awdr_max = models.FloatField(null=True)
     prev_crop=  models.CharField(max_length=100)
-    prev_crop_low = models.FloatField(null=True)
-    prev_crop_mod = models.FloatField(null=True)
-    prev_crop_high = models.FloatField(null=True)
+    prev_crop_val = models.FloatField(null=True)
     price_mean= models.FloatField(null=True)
     price_std=  models.FloatField(null=True)
     costmean=   models.FloatField(null=True)
@@ -83,6 +79,7 @@ class UserRquestSite(models.Model):
     SOM = models.FloatField(null=True)
     SOM_min = models.FloatField(null=True)
     SOM_max = models.FloatField(null=True)
+    q_val = models.IntegerField(null=True)
 
     class Meta:
           db_table = 'dssservice_userrquestsite'
@@ -95,22 +92,6 @@ class UserInputPreference(models.Model):
     numeric =models.CharField(max_length=100)
     class Meta:
           db_table = 'dssservice_userinputpreference'
-
-class UserSettings(models.Model):
-    user=   models.ForeignKey(User,on_delete=None)
-
-    tilltype_Conv=   models.CharField(max_length=100)
-    tilltype_NoTill = models.CharField(max_length=100)
-
-    prev_crop_low=  models.CharField(max_length=100)
-    prev_crop_mod = models.CharField(max_length=100)
-    prev_crop_high = models.CharField(max_length=100)
-
-    request_date = models.DateField(auto_now_add=True)
-
-    class Meta:
-          db_table = 'dssservice_usersettings'
-
 
 class UserTransaction(models.Model):
 

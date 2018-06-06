@@ -47,13 +47,6 @@
              $("#chuMax").val({{ maxCHU }});
 
 
-
-           //$("#tillTypeMin").val({{ minTillType }});
-            //$("#tillTypeMax").val({{ maxTillType }});
-
-              //$("#prevCropMin").val({{ minPrevCrop }});
-             //$("#prevCropMax").val({{ maxPrevCrop }});
-
              $("#climateMin").val({{ minAWDR }});
              $("#climateMax").val({{ maxAWDR }});
 
@@ -63,45 +56,7 @@
 
              $("#soilTypeMin").val({{ minClayRatio }});
              $("#soilTypeMax").val({{ maxClayRAtio }});
-             /*
-          //default hide the other text values and show only if other is selected as value
-           $("input#somother").hide();
-           $("input#chuother").hide();
-           $("input#awdrother").hide();
 
-            //code to show/hide som other textbox value based on the user selection at SOM class
-            $('#som').change(function() {
-            var selected = $(this).val();
-            if(selected == 'other'){
-            $('#somother').show();
-            }
-            else{
-                $('#somother').hide();
-            }
-            });
-
-                //code to show/hide chu other textbox value based on the user selection at CHU class
-            $('#chu').change(function() {
-            var selected = $(this).val();
-            if(selected == 'other'){
-            $('#chuother').show();
-            }
-            else{
-                $('#chuother').hide();
-            }
-            });
-
-                 //code to show/hide chu other textbox value based on the user selection at CHU class
-            $('#climate').change(function() {
-            var selected = $(this).val();
-            if(selected == 'other'){
-            $('#awdrother').show();
-            }
-            else{
-                $('#awdrother').hide();
-            }
-            });
-            */
 
        });
   function addSeasonOption(){
@@ -122,16 +77,7 @@
 
       <!-- Knockout JS -->
       <script type="text/javascript">
-          /*
-          var cropData = [
-              {title: "Min Soil Distortion (No till)" , value: 1.00, scale: },
-              {title:"Max Soil Distortion (Conventional)" , value: 0.9, scale:},
-              {title: "Low nutrient contribution (e.g., Corn, Potatoes etc.)", value:0.50, scale: },
-              {title: "Moderate nutrient contribution (e.g., Soybean, Forage etc.)", value: 0.75, scale:},
-              {title: "Strong nutrient contribution (e.g., Legumes, GreenPeas etc.)", value: 1.00, scale:}
-          ];
-
-*/
+          /
 
 
           var minCHU = 550;
@@ -153,48 +99,6 @@
                 var ClayRatioTmp = 0.6667;
                 var CHUTmp = 750;
 
-                /*
-          var Category = function(name, value, min, max){
-              this.name = name;
-              this.value = ko.observable(value);
-              this.min = ko.observable(min);
-              this.max = ko.observable(max);
-              this.scale = ko.computed(function(){
-                  return +((this.value()+this.min())/(this.max() + this.min())).toFixed(2);
-              },this);
-          };
-
-          var TillType = function(name,value){
-              this.name = name;
-              this.value = ko.observable(value);
-          };
-
-          var CropContribution = function(name,value){
-              this.name = name;
-              this.value = ko.observable(value);
-          };
-
-          var tillTypes = ko.observableArray([
-                  new TillType("Min Soil Distortion (No till)",1.00),
-                  new TillType("Max Soil Distortion (Conventional)",0.9)
-              ]);
-
-          var cropContributions = ko.observableArray([
-                  new CropContribution("Low nutrient contribution (e.g., Corn, Potatoes etc.)", 0.50),
-                  new CropContribution("Moderate nutrient contribution (e.g., Soybean, Forage etc.)",0.75),
-                  new CropContribution("Strong nutrient contribution (e.g., Legumes, GreenPeas etc.)",1.00)
-              ]);
-          var selectedPrevCrop = ko.observable(PrevCropTmp);
-          var Categories = ko.observableArray([
-                  new Category("TillType",TillTypeTmp,minTillType,maxTillType),
-                  new Category("PrevCropContribution",selectedPrevCrop(),cropContributions()[0].value(),cropContributions()[2].value()),
-                  new Category("ClayRatio",ClayRatioTmp,minClayRatio,maxClayRatio),
-                  new Category("SOM",SOMTmp,minSOM,maxSOM),
-                  new Category("AWDR",AWDRTmp,minAWDR,maxAWDR),
-                  new Category("CHU",CHUTmp,minCHU,maxCHU)
-              ]);
-          console.log("val: " + cropContributions()[0].value());
-        */
           var ViewModel = function(){
               var self = this;
                var minCHU = ko.observable(550);
@@ -230,26 +134,6 @@
                     return ((this.tillTypek()-minTillType)/(maxTillType-minTillType));},this);
                 this.prevCropScalek = ko.computed(function(){
                     return ((this.prevCropSelected()-minPrevCrop)/(maxPrevCrop-minPrevCrop));},this);
-
-
-
-
-
-                /*
-              var self = this;
-              this.items = ko.observableArray();
-              cropData.forEach(function(data)){
-                  var item = [
-                      {title: data.title, value: ko.observable(data.value), scale: ko.computed(function(){
-                  return +((data.value+data.min)/(data.max + data.min)).toFixed(2);
-              },this);}
-                  ]
-                  self.items.push(data);
-              }
-              this.selectedPrevCrop : ko.observable(PrevCropTmp),
-              cropContributions : ko.observable(cropContributions),
-              */
-
 
 
           };
@@ -434,7 +318,7 @@
 
                                                               <label for="tillage">&zwnj; </label>
 
-                                                                <select class="form-control" id="tillTypeCat1" name="tillType" placeholder="Till Type" readonly>
+                                                                <select class="form-control" id="tillTypeCat1" placeholder="Till Type" readonly>
 
                                                                     <option selected="selected" value="1">Min Soil Distortion (No till)</option>
 
@@ -501,7 +385,7 @@
 
 
                                                 </label>
-                                             <input type="number" data-bind="value: tillTypeScalek" value="" id = "tillTypeScale" class="form-control" style="padding: 6px 4px;" readonly>
+                                             <input type="number" data-bind="value: tillTypeScalek" value="" id = "tillTypeScale" name = "tillType" class="form-control" style="padding: 6px 4px;" readonly>
 
                                             </div>
 
@@ -630,58 +514,7 @@
 
                                             </select>
                                            </div>
-                                            <!--
-                                           <div class="col-md-5">
-                                                <div class="row">
-                                                <div class="col-md-6">
-                                                    <label  for="previousCrop">Value</label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label  for="previousCrop">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_prevCrop">Set Max/Min</a>
 
-
-                                                </label>
-                                                </div>
-                                                </div>
-                                                <div class="modal fade" id="max_min_prevCrop" tabindex="-1" role="dialog" aria-labelledby="max_min_prevCrop" aria-hidden="true">
-                                                      <div class="modal-dialog modal-sm" role="document">
-                                                        <div class="modal-content">
-                                                          <div class="modal-header">
-                                                            <h5 class="modal-title font-weight-bold">Set Previous Crop Max and Min Values
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                              <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                            </h5>
-
-                                                          </div>
-                                                          <div class="modal-body">
-                                                              <div class="form-group align-center">
-                                                              <label for="previousCrop">Max</label>
-
-                                                                <input class="form-control" id = "prevCropMax" type="number" value="5">
-
-                                                              </div>
-                                                              <div class="form-group align-center">
-                                                              <label for="previousCrop">Min</label>
-
-                                                                <input class="form-control" id = "prevCropMin" type="number" value="3">
-
-                                                              </div>
-                                                          </div>
-                                                          <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Set</button>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-
-
-
-                                                <input class="form-control" id = "prevCropValue" name="prevCropValue" type="number">
-                                            </div>
-                                            -->
                                            <div class="col-md-6">
                                                 <label for="previousCrop">Relative Value (0-1)
 
@@ -713,7 +546,7 @@
                                                   <span title="Click on the ? to lookup your site specific soil type" class="glyphicon glyphicon-question-sign"></span></a>
                                                 </label>
 
-                                                <select class="form-control" id="soilType" name="soilType">
+                                                <select class="form-control" id="soilType">
                                                     <option value="0.6667" selected="selected">Clay</option>
                                                     <option value="0.5">Clay loam</option>
                                                     <option value="0.0556">Fine sand</option>
@@ -802,63 +635,9 @@
 
                                                 </div>
                                                 </div>
-                                                <input type="number" value="1" step="0.0001" id = "soilTypeValue" name="soilTypeValue" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" value="1" step="0.0001" id = "soilTypeValue" name="soilType" class="form-control" style="padding: 6px 4px;">
                                             </div>
-                                            <!--
-                                            <div class="col-md-5">
-                                                <div class="row">
-                                                <div class="col-md-6">
-                                                    <label  for="soiltype">Clay Ratio
-                                                    <a href="http://www.info-sols.ca"  target = "_blank">
-                                                  <span title="Click on the ? to lookup your site specific soil type" class="glyphicon glyphicon-question-sign"></span></a></label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label  for="soiltype">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_soilType"> Set Scale</a>
 
-
-
-                                                </label>
-                                                </div>
-                                                </div>
-                                                <div class="modal fade" id="max_min_soilType" tabindex="-1" role="dialog" aria-labelledby="max_min_soilType" aria-hidden="true">
-                                                      <div class="modal-dialog modal-sm" role="document">
-                                                        <div class="modal-content">
-                                                          <div class="modal-header">
-                                                            <h5 class="modal-title font-weight-bold">Set Soil Type Scale
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                              <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                            </h5>
-
-                                                          </div>
-                                                          <div class="modal-body">
-                                                              <div class="form-group align-center">
-                                                              <label for="soilType">Max</label>
-
-                                                                <input class="form-control" id = "soilTypeMax" type="number" value="5">
-
-                                                              </div>
-                                                              <div class="form-group align-center">
-                                                              <label for="soilType">Min</label>
-
-                                                                <input class="form-control" id = "soilTypeMin" type="number" value="3">
-
-                                                              </div>
-                                                          </div>
-                                                          <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Set</button>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-
-
-
-                                                <input class="form-control" id = "soilTypeValue" name="soilTypeValue" type="number">
-                                            </div>
-                                            -->
                                            <div class="col-md-3">
                                                 <label for="soilType">Scaled Value (0-1)
 
@@ -891,7 +670,7 @@
                                                  </label>
 
 
-                                              <select class="form-control" id="som" name="som" >
+                                              <select class="form-control" id="som" >
                                                 <option value="1">Very Low (0% - 2%)</option>
                                                 <option value="3">Low (2% - 4%)</option>
                                                  <option selected="selected" value="5">Medium (4% - 6%)</option>
@@ -970,7 +749,7 @@
                                                         </div>
                                                       </div>
                                                     </div>
-                                                 <input step="0.01" class="form-control" id = "somValue" name="somValue" type="number">
+                                                 <input step="0.01" class="form-control" id = "somValue" name="som" type="number">
 
 
 
@@ -1012,7 +791,7 @@
                                                     </a>
                                                 </label>
 
-                                                <select class="form-control" id="climate" name="climate" >
+                                                <select class="form-control" id="climate">
                                                     <option value="15">Very Dry </option>
                                                     <option value="45">Dry </option>
                                                     <option selected="selected" value="75">Medium Conditions</option>
@@ -1090,7 +869,7 @@
 
 
 
-                                                <input class="form-control" id = "climateValue" name="climateValue" type="number">
+                                                <input class="form-control" id = "climateValue" name="climate" type="number">
                                             </div>
 
                                              <div class="col-md-3">
@@ -1122,7 +901,7 @@
                                                 </a>
                                             </label>
 
-                                            <select for="local climate" class="form-control" id="chu" name="chu" >
+                                            <select for="local climate" class="form-control" id="chu" >
                                                  <option value="550">Cold </option>
                                                 <option value="650">Warm </option>
                                                 <option selected="selected" value="750">Medium Conditions</option>
@@ -1201,7 +980,7 @@
 
 
 
-                                                <input class="form-control" id = "chuValue" name="chuValue" type="number">
+                                                <input class="form-control" id = "chuValue" name="chu" type="number">
                                             </div>
 
                                         <div class="col-md-3">
@@ -1311,7 +1090,7 @@
                                     </div>
                                     <div class="col-md-5">
                                         <label>Value</label>
-                                        <input value="" type="number" class="form-control" id="qValue" name="qValue">
+                                        <input value="" type="number" class="form-control" id="qValue" name="qVal">
                                     </div>
                                     <div class="col-md-2">
                                         <label>&zwnj; </label>
@@ -1461,12 +1240,28 @@
 
                                    $("#soilTypeValue").val({{ userClayRatio }});
                                    $("#soilType").val({{ userClayRatio }});
+                                   $("#soilTypeMin").val({{ userClayRatioMin }});
+                                   $("#soilTypeMax").val({{ userClayRatioMax }});
                                    $("#somValue").val({{ userSOM }});
                                    $("#som").val({{ userSOM }});
+                                   $("#somMin").val({{ userSOM_MIN }});
+                                   $("#somMax").val({{ userSOM_MAX }});
                                    $("#chuValue").val({{ userCHU }});
                                    $("#chu").val({{ userCHU }});
+                                   $("#chuMin").val({{ userCHU_MIN }});
+                                   $("#chuMax").val({{ userCHU_MAX }});
                                    $("#climateValue").val({{ userAWDR }});
                                    $("#climate").val({{ userAWDR }});
+                                   $("#climateMin").val({{ userAWDR_MIN }});
+                                   $("#climateMax").val({{ userAWDR_MAX }});
+                                   $("#qValue").val({{ userQ }})
+                                   window.vm.minTillTypek({{userTillageConv}});
+                                   window.vm.maxTillTypek({{userTillageNoTill}});
+                                   window.vm.lowPrevCrop({{ userPrevCropLow }});
+                                   window.vm.modPrevCrop({{ userPrevCropMod }});
+                                   window.vm.highPrevCrop({{ userPrevCropHigh }});
+                                   window.vm.prevCropSelected({{ userPrevCrop }})
+                                   refreshTill().call();
                                    console.log({{ userCHU }});
 
                                });
