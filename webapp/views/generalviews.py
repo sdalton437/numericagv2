@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect,get_object_or_404,render_to_respon
 
 from statistics import mean, stdev,variance
 
-from ..models import UserRquestSite,UserTransaction,PlotYield,SiteField,dsslookup,UserSettings
+from ..models import UserRquestSite,UserTransaction,PlotYield,SiteField,dsslookup,UserInputPreference
 #from django.db.models import Q
 
 import csv
@@ -390,13 +390,90 @@ def saveUserRequest(request):
         prevCropLookup = "Custom"
 
 
-    #user = User.objects.get(username=request.session['username'])
-    #Store user request in user trans request
-    ur = UserRquestSite(user= request.user,fertilizer=fertilizer,current_crop=currentcrop,season=season,soiltype=clayratiolookup,soiltype_min=clayRatioMin, soiltype_max = clayRatioMax, tilltype=tillTypelookup, tilltype_val=tillTypeVal, tilltype_NoTill=tillTypeNoTill, tilltype_Conv=tillTypeConvTill,
-                         latitude=latitude,longitude=longitude,awdr=awdr,awdr_min = climateMin, awdr_max = climateMax, prev_crop=prevCropLookup,prev_crop_low=prevCropLow, prev_crop_mod=prevCropMod, prev_crop_high=prevCropHigh,
-                        CHU=chu,CHU_min = CHUMin, CHU_max = CHUMax, SOM=som,SOM_min = SOMMin, SOM_max = SOMMax, price_mean=meanprice,price_std=stdprice,costmean=meancost,coststd=stdcost)
+
+
+    userSettings = []
+    userSettings.append(
+        {'name':'fertilizer','value': fertilizer}
+    )
+    userSettings.append(
+        {'name':'currentcrop','value': currentcrop}
+    )
+    userSettings.append(
+        {'name':'season','value':season}
+    )
+    userSettings.append(
+        {'name': 'latitude', 'value': latitude}
+    )
+    userSettings.append(
+        {'name': 'longitude', 'value': longitude}
+    )
+    userSettings.append(
+        {'name': 'clayRatio', 'value': clayRatio, 'min':clayRatioMin,'max':clayRatioMax}
+    )
+    userSettings.append(
+        {'name': 'tillType', 'value': tillTypeVal}
+    )
+    userSettings.append(
+        {'name': 'tillTypeNoTill', 'value': tillTypeNoTill}
+    )
+    userSettings.append(
+        {'name': 'tillTypeConvTill', 'value': tillTypeConvTill}
+    )
+    userSettings.append(
+        {'name': 'SOM', 'value': SOM, 'min': SOMMin, 'max': SOMMax}
+    )
+    userSettings.append(
+        {'name': 'awdr', 'value': climate, 'min': climateMin, 'max': climateMax}
+    )
+    userSettings.append(
+        {'name': 'CHU', 'value': CHU, 'min': CHUMin, 'max': CHUMax}
+    )
+    userSettings.append(
+        {'name': 'prevCrop', 'value': prevCropVal}
+    )
+    userSettings.append(
+        {'name': 'prevCropLow', 'value': prevCropLow}
+    )
+    userSettings.append(
+        {'name': 'prevCropMod', 'value': prevCropMod}
+    )
+    userSettings.append(
+        {'name': 'prevCropHigh', 'value': prevCropHigh}
+    )
+
+    for x in userSettings:
+        if(UserInputPreference.objects.filter(user=request.user,parameter=x['name']).count() != 0):
+            if'min' in x and 'max' in x:
+                obj = UserInputPreference.objects.get(user=request.user,parameter=x['name'])
+                obj.numeric = x['value']
+                obj.min = x['min']
+                obj.max = x['max']
+                obj.save()
+            else:
+                obj = UserInputPreference.objects.get(user=request.user, parameter=x['name'])
+                obj.numeric = x['value']
+                obj.save()
+        else:
+            if 'min' in x and 'max' in x:
+                userPref = UserInputPreference(user=request.user,parameter=x['name'],numeric=x['value'],min=x['min'],max=x['max'])
+                userPref.save()
+            else:
+                userPref = UserInputPreference(user=request.user, parameter=x['name'], numeric=x['value'])
+                userPref.save()
+    # user = User.objects.get(username=request.session['username'])
+    # Store user request in user trans request
+    ur = UserRquestSite(user=request.user, fertilizer=fertilizer, current_crop=currentcrop, season=season,
+                        soiltype=clayratiolookup, soiltype_min=clayRatioMin, soiltype_max=clayRatioMax,
+                        tilltype=tillTypelookup, tilltype_val=tillTypeVal, tilltype_NoTill=tillTypeNoTill,
+                        tilltype_Conv=tillTypeConvTill,
+                        latitude=latitude, longitude=longitude, awdr=awdr, awdr_min=climateMin, awdr_max=climateMax,
+                        prev_crop=prevCropLookup, prev_crop_low=prevCropLow, prev_crop_mod=prevCropMod,
+                        prev_crop_high=prevCropHigh,
+                        CHU=chu, CHU_min=CHUMin, CHU_max=CHUMax, SOM=som, SOM_min=SOMMin, SOM_max=SOMMax,
+                        price_mean=meanprice, price_std=stdprice, costmean=meancost, coststd=stdcost)
     ur.save()
-    #print(UserSettings.objects.filter(user = request.user).exists())
+
     '''if(UserSettings.objects.filter(user = request.user).exists()):
 
         urUser =  UserSettings.objects.filter(user=request.user)[]

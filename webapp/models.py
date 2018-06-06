@@ -92,7 +92,9 @@ class UserInputPreference(models.Model):
     parameter = models.CharField(null=True,max_length=100)
     min = models.FloatField(null=True)
     max = models.FloatField(null=True)
-    numeric =models.FloatField(null=True)
+    numeric =models.CharField(max_length=100)
+    class Meta:
+          db_table = 'dssservice_userinputpreference'
 
 class UserSettings(models.Model):
     user=   models.ForeignKey(User,on_delete=None)
