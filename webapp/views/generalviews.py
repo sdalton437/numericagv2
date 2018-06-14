@@ -170,9 +170,7 @@ def index(request):
     maxTillType = dbTrials.aggregate(Max('TillType_int'))
 
     #Find parameters of users' last session
-
-
-    if UserRquestSite.objects.filter(user=request.user).exists():
+    if UserInputPreference.objects.filter(user=request.user).exists():
         userData = UserRquestSite.objects.filter(user_id=request.session['userid']).last()
         userTillage = UserInputPreference.objects.filter(user=request.user, parameter='tillType')[0].numeric
 
@@ -386,9 +384,9 @@ def saveUserRequest(request):
     print("awdr :", awdr)
     print("som :", som)
 
+    #Get key values for till, clay ratio, and prev crop. Key value is custom if user declared their own value
     if dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal).exists():
         tillTypelookup = dsslookup.objects.filter(fieldname='till_type', value=tillTypeVal)[0].key
-        print("till type false val " + tillTypelookup)
     else:
         tillTypelookup = "Custom"
 
@@ -404,7 +402,7 @@ def saveUserRequest(request):
 
 
 
-
+    #Create dict of user settings
     userSettings = []
     userSettings.append(
         {'name':'fertilizer','value': fertilizer}
@@ -458,6 +456,7 @@ def saveUserRequest(request):
         {'name': 'q_val', 'value': q}
     )
 
+    #Add values from session to userinputpreferences
     for x in userSettings:
         if(UserInputPreference.objects.filter(user=request.user,parameter=x['name']).count() != 0):
             if'min' in x and 'max' in x:
@@ -477,7 +476,7 @@ def saveUserRequest(request):
             else:
                 userPref = UserInputPreference(user=request.user, parameter=x['name'], numeric=x['value'])
                 userPref.save()
-    # user = User.objects.get(username=request.session['username'])
+
     # Store user request in user trans request
     ur = UserRquestSite(user=request.user, fertilizer=fertilizer, current_crop=currentcrop, season=season,
                         soiltype=clayratiolookup, soiltype_val=clayRatio,soiltype_min=clayRatioMin, soiltype_max=clayRatioMax,

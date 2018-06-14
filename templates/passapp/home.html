@@ -21,28 +21,6 @@
       <script type="text/javascript">
             $(document).ready(function(){
 
-                //Min Values
-                var minCHU = 550;
-                var maxCHU = 950;
-                var minTillType = {{ minTillType }};
-                var maxTillType = {{ maxTillType }};
-                var minPrevCrop = {{ minPrevCrop }};
-                var maxPrevCrop = {{ maxPrevCrop }};
-                var minAWDR = 15;
-                var maxAWDR = 135;
-                var minSOM = 1;
-                var maxSOM = 12;
-                var minClayRatio = 0.0323;
-                var maxClayRatio = 0.8824;
-
-                //User Parameters
-
-                var userClayRatio = {{ userClayRatio }};
-                var userSOM = {{ userSOM }};
-                var userCHU = {{ userCHU }};
-                var userAWDR = {{ userAWDR }};
-
-
              $("#chuMin").val({{ minCHU }});
              $("#chuMax").val({{ maxCHU }});
 
@@ -75,71 +53,33 @@
 
   </script>
 
-      <!-- Knockout JS -->
-      <script type="text/javascript">
-          /
+    <!-- Knockout JS -->
+    <script type="text/javascript">
 
+      var minTillType = {{ minTillType }};
+      var maxTillType = {{ maxTillType }};
+      var minPrevCrop = {{ minPrevCrop }};
+      var maxPrevCrop = {{ maxPrevCrop }};
 
-          var minCHU = 550;
-                var maxCHU = 950;
-                var minTillType = {{ minTillType }};
-                var maxTillType = {{ maxTillType }};
-                var minPrevCrop = {{ minPrevCrop }};
-                var maxPrevCrop = {{ maxPrevCrop }};
-                var minAWDR = 15;
-                var maxAWDR = 135;
-                var minSOM = 1;
-                var maxSOM = 12;
-                var minClayRatio = 0.0323;
-                var maxClayRatio = 0.8824;
-                var TillTypeTmp = 0.5;
-                var PrevCropTmp = 0.5;
-                var AWDRTmp = 75;
-                var SOMTmp = 5;
-                var ClayRatioTmp = 0.6667;
-                var CHUTmp = 750;
+      var ViewModel = function(){
+          //Till type values
+          this.tillTypek = ko.observable(0);
+          this.minTillTypek = ko.observable({{ maxTillType}});
+          this.maxTillTypek = ko.observable({{ minTillType }});
 
-          var ViewModel = function(){
-              var self = this;
-               var minCHU = ko.observable(550);
-                var maxCHU = ko.observable(950);
+          //PrevCrop Values
+          this.prevCropSelected = ko.observable(0.5);
+          this.lowPrevCrop = ko.observable( 0 );
+          this.modPrevCrop = ko.observable(50);
+          this.highPrevCrop = ko.observable( 100 );
 
-                this.tillTypek = ko.observable(0);
-                this.minTillTypek = ko.observable({{ maxTillType}});
-                this.maxTillTypek = ko.observable({{ minTillType }});
+          this.tillTypeScalek = ko.computed(function(){
+              return ((this.tillTypek()-minTillType)/(maxTillType-minTillType));},this);
+          this.prevCropScalek = ko.computed(function(){
+              return ((this.prevCropSelected()-minPrevCrop)/(maxPrevCrop-minPrevCrop));},this);
+      };
 
-
-
-                this.prevCropSelected = ko.observable(0.5);
-
-                this.lowPrevCrop = ko.observable( 0 );
-                this.modPrevCrop = ko.observable(50);
-                this.highPrevCrop = ko.observable( 100 );
-
-
-
-                var minAWDR = ko.observable(15);
-                var maxAWDR = ko.observable(135);
-                var minSOM = ko.observable(1);
-                var maxSOM = ko.observable(12);
-                var minClayRatio = ko.observable(0.0323);
-                var maxClayRatio = ko.observable(0.8824);
-                var TillTypeTmp = ko.observable(0.5);
-                var PrevCropTmp = ko.observable(0.5);
-                var AWDRTmp = ko.observable(75);
-                var SOMTmp = ko.observable(5);
-                var ClayRatioTmp = ko.observable(0.6667);
-                var CHUTmp = ko.observable(750);
-                this.tillTypeScalek = ko.computed(function(){
-                    return ((this.tillTypek()-minTillType)/(maxTillType-minTillType));},this);
-                this.prevCropScalek = ko.computed(function(){
-                    return ((this.prevCropSelected()-minPrevCrop)/(maxPrevCrop-minPrevCrop));},this);
-
-
-          };
-
-
-          </script>
+      </script>
     <style>
 
     fieldset.scheduler-border {
@@ -162,9 +102,6 @@
 
 
     </style>
-
-
-
 
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   </head>
@@ -330,7 +267,7 @@
                                                                   <label for="tillage">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" min="0" max="1" step="0.01" onkeyup="checkRelativeValue(this)" data-bind="value: maxTillTypek" id = "tillTypeMax" name="tillTypeNoTill" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" min="0" max="1" step="0.01" onkeyup="checkRelativeValue(this,0,1)" data-bind="value: maxTillTypek" id = "tillTypeMax" name="tillTypeNoTill" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -351,7 +288,7 @@
                                                                             <label for="tillage">Relative Value (0-1)
 
                                                 </label>
-                                                <input type="number" min="0" max="1" step="0.01" value="" data-bind="value: minTillTypek" id = "tillTypeMin" name="tillTypeConvTill" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" min="0" max="1" step="0.01" onkeyup="checkRelativeValue(this,0,1)" value="" data-bind="value: minTillTypek" id = "tillTypeMin" name="tillTypeConvTill" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -439,10 +376,10 @@
                                                                       </div>
 
                                                                           <div class="col-md-4">
-                                                                  <label for="previousCrop">Relative Value (0-1)
+                                                                  <label for="previousCrop">Relative Value (0-100)
 
                                                 </label>
-                                                <input type="number" data-bind="value: highPrevCrop" id = "prevCropHigh" name="prevCropHigh" class="form-control" style="padding: 6px 4px;">
+                                                <input type="number" data-bind="value: highPrevCrop" onkeyup="checkRelativeValue(this,0,100)" id = "prevCropHigh" name="prevCropHigh" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -462,10 +399,10 @@
                                                                           </div>
 
                                                                           <div class="col-md-4">
-                                                                               <label for="previousCrop">Relative Value (0-1)
+                                                                               <label for="previousCrop">Relative Value (0-100)
 
                                                 </label>
-                                            <input type="number" data-bind="value: modPrevCrop" id = "prevCropMod" name="prevCropMod" class="form-control" style="padding: 6px 4px;">
+                                            <input type="number" data-bind="value: modPrevCrop" onkeyup="checkRelativeValue(this,0,100)" id = "prevCropMod" name="prevCropMod" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -484,10 +421,10 @@
                                                                           </div>
 
                                                                           <div class="col-md-4">
-                                                                        <label for="previousCrop">Relative Value (0-1)
+                                                                        <label for="previousCrop">Relative Value (0-100)
 
                                                 </label>
-                                            <input type="number" data-bind="value: lowPrevCrop" id = "prevCropLow" name="prevCropLow" class="form-control" style="padding: 6px 4px;">
+                                            <input type="number" data-bind="value: lowPrevCrop" onkeyup="checkRelativeValue(this,0,100)" id = "prevCropLow" name="prevCropLow" class="form-control" style="padding: 6px 4px;">
                                                                               </div>
                                                                       </div>
 
@@ -891,112 +828,110 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="local climate">Temperature Expressed as Crop Heat Unit (CHU)
+                                      <a href="description#temperature"  target = "_blank">
+                                    <span title="The temperature forecast at the farm region" class="glyphicon glyphicon-question-sign"></span>
+                                    </a>
+                                </label>
 
+                                <select for="local climate" class="form-control" id="chu" >
+                                     <option value="550">Cold </option>
+                                    <option value="650">Warm </option>
+                                    <option selected="selected" value="750">Medium Conditions</option>
+                                    <option value="850">Hot </option>
+                                    <option value="950">Very Hot </option>
+                                    <option value="other">Other</option>
+                                </select>
 
+                                <!-- <input class="form-control" type="number" step="50" min="500" max="1200" id="chuother" name="chuother" placeholder=" e.g., 500, 600, 700 ... 1000 °C"> -->
+                            </div>
+                            <div class="col-md-4">
                                     <div class="row">
-                                        <div class="col-md-5">
-                                            <label for="local climate">Temperature Expressed as Crop Heat Unit (CHU)
-                                                  <a href="description#temperature"  target = "_blank">
-                                                <span title="The temperature forecast at the farm region" class="glyphicon glyphicon-question-sign"></span>
-                                                </a>
-                                            </label>
+                                    <div class="col-md-6">
+                                        <label  for="local climate">CHU, °C</label>
+                                    </div>
+                                    <div class="col-md-6">
 
-                                            <select for="local climate" class="form-control" id="chu" >
-                                                 <option value="550">Cold </option>
-                                                <option value="650">Warm </option>
-                                                <option selected="selected" value="750">Medium Conditions</option>
-                                                <option value="850">Hot </option>
-                                                <option value="950">Very Hot </option>
-                                                <option value="other">Other</option>
-                                            </select>
+                                    </div>
+                                    </div>
+                                    <div class="modal fade" id="max_min_chu" tabindex="-1" role="dialog" aria-labelledby="max_min_chu" aria-hidden="true">
+                                          <div class="modal-dialog modal-md" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title font-weight-bold">Temperature Settings
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </h5>
 
-                                            <!-- <input class="form-control" type="number" step="50" min="500" max="1200" id="chuother" name="chuother" placeholder=" e.g., 500, 600, 700 ... 1000 °C"> -->
-                                        </div>
-                                        <div class="col-md-4">
-                                                <div class="row">
-                                                <div class="col-md-6">
-                                                    <label  for="local climate">CHU, °C</label>
-                                                </div>
-                                                <div class="col-md-6">
+                                              </div>
+                                              <div class="modal-body">
+                                                  <div class="form-group align-center">
+                                                      <div class="row">
+                                                          <div class="col-md-8">
 
-                                                </div>
-                                                </div>
-                                                <div class="modal fade" id="max_min_chu" tabindex="-1" role="dialog" aria-labelledby="max_min_chu" aria-hidden="true">
-                                                      <div class="modal-dialog modal-md" role="document">
-                                                        <div class="modal-content">
-                                                          <div class="modal-header">
-                                                            <h5 class="modal-title font-weight-bold">Temperature Settings
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                              <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                            </h5>
 
+                                                  <label for="chu">Max</label>
+
+                                                    <input for="local climate" class="form-control" id = "chuMax"  name="chuMax" type="number" value="5">
                                                           </div>
-                                                          <div class="modal-body">
-                                                              <div class="form-group align-center">
-                                                                  <div class="row">
-                                                                      <div class="col-md-8">
 
+                                                              <div class="col-md-4">
+                                                      <label for="local climate">CHU, °C
 
-                                                              <label for="chu">Max</label>
+                                    </label>
+                                    <input type="number" for="local climate" id = "chuValue1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                  </div>
+                                                          </div>
 
-                                                                <input for="local climate" class="form-control" id = "chuMax"  name="chuMax" type="number" value="5">
-                                                                      </div>
+                                                  </div>
+                                                  <div class="form-group align-center">
+                                                      <div class="row">
+                                                          <div class="col-md-8">
+                                                  <label for="local climate">Min</label>
 
-                                                                          <div class="col-md-4">
-                                                                  <label for="local climate">CHU, °C
-
-                                                </label>
-                                                <input type="number" for="local climate" id = "chuValue1" class="form-control" style="padding: 6px 4px;" readonly>
-                                                                              </div>
-                                                                      </div>
-
+                                                    <input class="form-control" id = "chuMin" name="chuMin" type="number" value = "3">
                                                               </div>
-                                                              <div class="form-group align-center">
-                                                                  <div class="row">
-                                                                      <div class="col-md-8">
-                                                              <label for="local climate">Min</label>
 
-                                                                <input class="form-control" id = "chuMin" name="chuMin" type="number" value = "3">
-                                                                          </div>
+                                                              <div class="col-md-4">
+                                                                <label for="local climate">Scaled Value (0-1)
 
-                                                                          <div class="col-md-4">
-                                                                            <label for="local climate">Scaled Value (0-1)
-
-                                                </label>
-                                                <input type="number" value="1" id = "chuScale1" class="form-control" style="padding: 6px 4px;" readonly>
-                                                                              </div>
-                                                                      </div>
-
-                                                              </div>
+                                    </label>
+                                    <input type="number" value="1" id = "chuScale1" class="form-control" style="padding: 6px 4px;" readonly>
+                                                                  </div>
                                                           </div>
-                                                          <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Set</button>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
 
-
-
-                                                <input class="form-control" id = "chuValue" name="chu" type="number">
+                                                  </div>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Set</button>
+                                              </div>
                                             </div>
-
-                                        <div class="col-md-3">
-                                                <label for="local climate">Scaled Value (0-1)
-
-                                                </label>
-                                                <label  for="local climate" class="pull-right">
-                                                    <a href="" class="align-center" data-toggle="modal" data-target="#max_min_chu">Setup</a>
-
-
-                                                </label>
-                                                <input type="number"for="local climate"  value="" id = "chuScale" class="form-control" style="padding: 6px 4px;" readonly>
-
+                                          </div>
                                         </div>
-                                    </div>
-                                    </div>
+
+
+
+                                    <input class="form-control" id = "chuValue" name="chu" type="number">
+                                </div>
+
+                            <div class="col-md-3">
+                                    <label for="local climate">Scaled Value (0-1)
+
+                                    </label>
+                                    <label  for="local climate" class="pull-right">
+                                        <a href="" class="align-center" data-toggle="modal" data-target="#max_min_chu">Setup</a>
+
+
+                                    </label>
+                                    <input type="number"for="local climate"  value="" id = "chuScale" class="form-control" style="padding: 6px 4px;" readonly>
+
+                            </div>
+                        </div>
+                    </div>
                   </div>
                             </div>
 
@@ -1115,12 +1050,15 @@
     {% include "passapp/footer.html" %}
   </body>
   <script>
+
+        //Function that alerts user that relative values must be between 0 and 1
         var checkRelativeValue = function(dom,lower,upper){
             var idval = dom.id;
+            var msg = "Value must be between " + lower + " and " + upper
             var $id = $('#' + dom.id),
-            $errorMsg = $("<span class='error' style='color:red;'>Value must be between 0 and 1</span>");
+            $errorMsg = $("<span class='error' style='color:red;'></span>");
             $errorMsg.id = idval + "span"
-            console.log($id.val());
+            $errorMsg.text(msg);
             if($id.val() == "" || $id.val() < lower || $id.val() > upper){
                 if($id.data("error")){
 
@@ -1128,170 +1066,144 @@
                 else{
                     $id.data("error", $errorMsg.clone().insertAfter($id));
                 }
-
             }
             else{
                 if ($id.data("error")) {
                     $id.data("error").remove();
                     $id.removeData("error");
+                    $errorMsg.hide();
                 }
             }
-
-
-
         };
-                               var categories = ["soilType","som","climate","chu","q"];
 
-                                   var ScaleCalc = function (item) {
-                                    return function(){
-                                        if(document.getElementById(item + "Value")) {
-                                            var val = document.getElementById(item + "Value").value;
+        var categories = ["soilType","som","climate","chu","q"];
 
-                                        }
-                                        else{
-                                            console.log(item);
-                                            var val = document.getElementById(item).value;
+        //Calculates scaled value
+        var ScaleCalc = function (item) {
+            return function(){
+                if(document.getElementById(item + "Value")) {
+                    var val = document.getElementById(item + "Value").value;
 
-                                        }
-                                       var min = document.getElementById(item + "Min").value;
-                                       console.log(min);
-                                       var max = document.getElementById(item + "Max").value;
+                }
+                else{
+                    var val = document.getElementById(item).value;
 
-                                       var scale = +(((val - min) / (max - min)).toFixed(2));
+                }
+               var min = document.getElementById(item + "Min").value;
+               var max = document.getElementById(item + "Max").value;
 
-                                       var scaleElem = document.getElementById(item + "Scale");
-                                       if(document.getElementById(item + "Scale1")) {
-                                           var scaleElem1 = document.getElementById(item + "Scale1");
-                                           scaleElem1.value = scale;
-                                       }
-                                       scaleElem.value = scale;
+               var scale = +(((val - min) / (max - min)).toFixed(2));
 
+               var scaleElem = document.getElementById(item + "Scale");
+               if(document.getElementById(item + "Scale1")) {
+                   var scaleElem1 = document.getElementById(item + "Scale1");
+                   scaleElem1.value = scale;
+               }
+               scaleElem.value = scale;
+             }
+        };
+        //Sets value of numeric input box when user changes the category
+        var SetValue = function (item) {
+            return function(){
+              var cat = document.getElementById(item);
+              var value = document.getElementById(item + "Value");
+              value.value = cat.value;
+              if(item!="q") {
+                  var value1 = document.getElementById(item + "Value1");
+                  value1.value = cat.value;
+              }
+            }
+        };
 
-                                     }
-                                   };
-                                   var SetValue = function (item) {
-                                    return function(){
+        //Sets category when user changes numeric value
+        var SetCat = function(item){
+              return function(){
+                var cat = document.getElementById(item);
+                var value = document.getElementById(item + "Value");
+                if(item!="q") {
+                    var value1 = document.getElementById(item + "Value1");
+                    value1.value = value.value;
+                }
+                for(i=0;i<cat.length;i++){
+                  if(cat.options[i].value == value.value){
+                      cat.value = cat.options[i].value;
+                      break;
+                  }
+                  else{
+                      cat.value = "other"
+                  }
+                }
+              }
+        };
 
-                                      var cat = document.getElementById(item);
-                                      var value = document.getElementById(item + "Value");
+        //Initialize event listeners for all categories
+        for (i = 0; i<categories.length;i++) {
+           (function(i) {
+               if(document.getElementById(categories[i] + "Value")) {
+                   $("#" + categories[i]).change(SetValue(categories[i]));
+                   $(document).ready(SetValue(categories[i]));
+               }
+               if(categories[i] == "q"){
+                   $("#" + categories[i] + "Value").change(SetCat(categories[i]));
+               }
+               else {
+                   $("#" + categories[i]).change(ScaleCalc(categories[i]));
+                   $("#" + categories[i] + "Value").change(SetCat(categories[i]));
+                   $("#" + categories[i] + "Value").change(ScaleCalc(categories[i]));
+                   $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
+                   $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
+                   $(document).ready(ScaleCalc(categories[i]));
+               }
+           })(i);
+        }
+        //Initialize original values to user preferences
+       $( window ).on( "load", function() {
 
-                                      value.value = cat.value;
-                                      if(item!="q") {
-                                          var value1 = document.getElementById(item + "Value1");
-                                          value1.value = cat.value;
-                                      }
+           $("#soilTypeValue").val({{ userClayRatio }});
+           $("#soilType").val({{ userClayRatio }});
+           $("#soilTypeMin").val({{ userClayRatioMin }});
+           $("#soilTypeMax").val({{ userClayRatioMax }});
+           $("#somValue").val({{ userSOM }});
+           $("#som").val({{ userSOM }});
+           $("#somMin").val({{ userSOM_MIN }});
+           $("#somMax").val({{ userSOM_MAX }});
+           $("#chuValue").val({{ userCHU }});
+           $("#chu").val({{ userCHU }});
+           $("#chuMin").val({{ userCHU_MIN }});
+           $("#chuMax").val({{ userCHU_MAX }});
+           $("#climateValue").val({{ userAWDR }});
+           $("#climate").val({{ userAWDR }});
+           $("#climateMin").val({{ userAWDR_MIN }});
+           $("#climateMax").val({{ userAWDR_MAX }});
+           $("#qValue").val({{ userQ }})
+           window.vm.minTillTypek({{userTillageConv}});
+           window.vm.maxTillTypek({{userTillageNoTill}});
+           window.vm.lowPrevCrop({{ userPrevCropLow }});
+           window.vm.modPrevCrop({{ userPrevCropMod }});
+           window.vm.highPrevCrop({{ userPrevCropHigh }});
+           window.vm.prevCropSelected({{ userPrevCrop }})
+           refreshTill().call();
 
-                                    }
+       });
 
-                                   };
+       for (i = 0; i<categories.length;i++) {
+           if(categories[i]!="q") {
+               (function (i) {
+                   $(window).on("load", ScaleCalc(categories[i]));
+               })(i);
+           }
+           (function(i) {
+               $(window).on("load",SetCat(categories[i]));
+           })(i);
+       }
 
-
-                                   var SetCat = function(item){
-                                      return function(){
-                                        var cat = document.getElementById(item);
-                                        var value = document.getElementById(item + "Value");
-                                        console.log("q :" + item);
-                                        if(item!="q") {
-                                            var value1 = document.getElementById(item + "Value1");
-                                            value1.value = value.value;
-                                        }
-
-                                        for(i=0;i<cat.length;i++){
-                                          if(cat.options[i].value == value.value){
-                                              cat.value = cat.options[i].value;
-                                              break;
-                                          }
-                                          else{
-                                              cat.value = "other"
-                                          }
-                                        }
-                                      }
-                                   };
-
-
-                               for (i = 0; i<categories.length;i++) {
-                                   (function(i) {
-
-                                        console.log($("#" + categories[i]).val());
-                                       if(document.getElementById(categories[i] + "Value")) {
-                                           $("#" + categories[i]).change(SetValue(categories[i]));
-
-                                           $(document).ready(SetValue(categories[i]));
-                                       }
-
-                                       if(categories[i] == "q"){
-                                           $("#" + categories[i] + "Value").change(SetCat(categories[i]));
-                                           //$("#" + categories[i] + "Value").on("input propertychange",function(){
-                                             //   SetCat(categories[i]);
-                                            //});
-                                       }
-                                       else {
-                                           $("#" + categories[i]).change(ScaleCalc(categories[i]));
-                                           $("#" + categories[i] + "Value").change(SetCat(categories[i]));
-                                           $("#" + categories[i] + "Value").change(ScaleCalc(categories[i]));
-                                           $("#" + categories[i] + "Min").change(ScaleCalc(categories[i]));
-                                           $("#" + categories[i] + "Max").change(ScaleCalc(categories[i]));
-                                           $(document).ready(ScaleCalc(categories[i]));
-                                       }
-
-                                   })(i);
-                               }
-                               $( window ).on( "load", function() {
-
-                                   $("#soilTypeValue").val({{ userClayRatio }});
-                                   $("#soilType").val({{ userClayRatio }});
-                                   $("#soilTypeMin").val({{ userClayRatioMin }});
-                                   $("#soilTypeMax").val({{ userClayRatioMax }});
-                                   $("#somValue").val({{ userSOM }});
-                                   $("#som").val({{ userSOM }});
-                                   $("#somMin").val({{ userSOM_MIN }});
-                                   $("#somMax").val({{ userSOM_MAX }});
-                                   $("#chuValue").val({{ userCHU }});
-                                   $("#chu").val({{ userCHU }});
-                                   $("#chuMin").val({{ userCHU_MIN }});
-                                   $("#chuMax").val({{ userCHU_MAX }});
-                                   $("#climateValue").val({{ userAWDR }});
-                                   $("#climate").val({{ userAWDR }});
-                                   $("#climateMin").val({{ userAWDR_MIN }});
-                                   $("#climateMax").val({{ userAWDR_MAX }});
-                                   $("#qValue").val({{ userQ }})
-                                   window.vm.minTillTypek({{userTillageConv}});
-                                   window.vm.maxTillTypek({{userTillageNoTill}});
-                                   window.vm.lowPrevCrop({{ userPrevCropLow }});
-                                   window.vm.modPrevCrop({{ userPrevCropMod }});
-                                   window.vm.highPrevCrop({{ userPrevCropHigh }});
-                                   window.vm.prevCropSelected({{ userPrevCrop }})
-                                   refreshTill().call();
-                                   console.log({{ userCHU }});
-
-                               });
-                               for (i = 0; i<categories.length;i++) {
-                                   if(categories[i]!="q") {
-                                       (function (i) {
-                                           $(window).on("load", ScaleCalc(categories[i]));
-
-                                       })(i);
-                                   }
-                                   (function(i) {
-                                       $(window).on("load",SetCat(categories[i]));
-
-                                       })(i);
-
-                               }
-
-
-
-
-
-
-
-
-                           </script>
+  </script>
 
   <script>
       window.vm = new ViewModel()
       ko.applyBindings(vm);
 
+      //Refresh the till value when user changes value in popup
       var refreshTill = function(){
           return function(){
               var id = $("#tillType option:selected").attr('id');
@@ -1304,65 +1216,53 @@
           }
       };
 
+      //Refresh the crop contribution value when user changes value in popup
       var refreshCrops = function(){
           return function(){
             var id = $("#prevCrop option:selected").attr('id');
-            console.log(id);
-                if(id == 'prevCropLowVal'){
-                   window.vm.prevCropSelected($('#prevCropLow').val());
-                }
-                if(id == 'prevCropModVal'){
-                   window.vm.prevCropSelected($('#prevCropMod').val());
-                }
-                else{
-                    window.vm.prevCropSelected($('#prevCropHigh').val());
-                }
+            if(id == 'prevCropLowVal'){
+               window.vm.prevCropSelected($('#prevCropLow').val());
+            }
+            if(id == 'prevCropModVal'){
+               window.vm.prevCropSelected($('#prevCropMod').val());
+            }
+            else{
+                window.vm.prevCropSelected($('#prevCropHigh').val());
+            }
           }
       };
 
-      $("#tillTypeMin").change(refreshTill()
-      );
+      //Set event listeners for each value in popup
+      $("#tillTypeMin").change(refreshTill());
       $("#tillTypeMax").change(refreshTill());
 
       $("#prevCropLow").change(refreshCrops());
       $("#prevCropMod").change(refreshCrops());
-
       $("#prevCropHigh").change(refreshCrops());
 
+      //Reset values to default values
       function reset(){
-          console.log("clicked");
 
           $("#som").val("5");
-
-          $("#chu").val("750");
-
-          $("#climate").val("75");
-
-          $("#soilType").val(0.6667);
-          $("#q").val("2");
-
-          $("#climateMin").val(15);
-          $("#climateMax").val({{ maxAWDR }});
-
-
           $("#somMin").val(0);
           $("#somMax").val({{ maxSOM }});
-
-          $("#soilTypeMin").val({{ minClayRatio }});
-          $("#soilTypeMax").val({{ maxClayRAtio }});
-
+          $("#chu").val("750");
           $("#chuMin").val({{ minCHU }});
           $("#chuMax").val({{ maxCHU }});
-
+          $("#climate").val("75");
+          $("#soilType").val(0.6667);
+          $("#soilTypeMin").val({{ minClayRatio }});
+          $("#soilTypeMax").val({{ maxClayRAtio }});
+          $("#climateMin").val(15);
+          $("#climateMax").val({{ maxAWDR }});
+          $("#q").val("2");
 
           for (i = 0; i<categories.length;i++) {
               if($("#" + categories[i] + "Scale").length){
                   ScaleCalc(categories[i]).call();
-                  console.log("has scale");
               }
               if($("#" + categories[i] + "Value").length){
                   SetValue(categories[i]).call();
-                  console.log("has Value");
               }
           }
           window.vm.minTillTypek(1);
@@ -1372,7 +1272,6 @@
           window.vm.highPrevCrop(100);
           refreshTill().call();
           refreshCrops().call();
-
       }
       $("#resetDefaults").click(function(){
           reset();
